@@ -4,11 +4,11 @@
 
       <!-- Бренд + контакт -->
       <div class="footer-col footer-brand">
-        <div class="brand-name">MedScan</div>
+        <div class="brand-name">BioSpectrum</div>
         <div class="brand-sub">Лабораторная диагностика</div>
         <div class="footer-contact mt-3">
           <span class="footer-phone">+7 (3466) 29‒13‒45</span>
-          <a href="https://t.me/" target="_blank" class="tg-link" title="Telegram">
+          <a href="https://t.me/certina8" target="_blank" class="tg-link" title="Telegram">
             <i class="pi pi-telegram"></i>
           </a>
         </div>
@@ -42,7 +42,7 @@
 
     <!-- Нижняя полоса -->
     <div class="footer-bottom">
-      <span>© {{ year }} MedScan. Все права защищены.</span>
+      <span>© {{ year }} BioSpectrum. Все права защищены.</span>
     </div>
 
   </footer>

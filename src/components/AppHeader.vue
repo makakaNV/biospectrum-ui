@@ -1,65 +1,80 @@
 <template>
   <div class="header-wrapper">
+    <div class="header-layout">
 
-    <!-- Верхняя полоса -->
-    <div class="topbar">
-      <div class="topbar-inner">
+      <!-- Лого — занимает высоту обеих полос -->
+      <div class="logo-area" @click="router.push('/')">
+        <img src="/src/assets/logo-blue-cutted.svg" alt="MedStorm" class="logo-img" />
+      </div>
 
-        <!-- Левая часть -->
-        <div class="topbar-item" v-tooltip.bottom="'Деятельность лаборатории Биоспектрум осуществляется исключительно в г. Нижневартовск'">
-          <i class="pi pi-map-marker topbar-icon"></i>
-          <span>Нижневартовск</span>
+      <!-- Правая часть: топбар + навбар -->
+      <div class="header-right">
+
+        <!-- Верхняя полоса -->
+        <div class="topbar">
+          <div class="topbar-inner">
+
+            <div class="topbar-item" v-tooltip.bottom="'Деятельность лаборатории Биоспектрум осуществляется исключительно в г. Нижневартовск'">
+              <i class="pi pi-map-marker topbar-icon"></i>
+              <span>Нижневартовск</span>
+            </div>
+
+            <div class="topbar-sep"></div>
+
+            <div class="topbar-item topbar-link" @click="router.push('/contacts')">
+              <span>Адреса и контакты</span>
+            </div>
+
+            <div class="topbar-sep"></div>
+
+            <div class="topbar-item topbar-link" @click="router.push('/about')">
+              <span>О компании</span>
+            </div>
+
+            <div class="topbar-sep" style="margin-left: auto;"></div>
+
+            <div class="topbar-item topbar-phone">
+              <div>
+                <div class="phone-number">+7 (3466) 29‒13‒45</div>
+                <div class="phone-sub">Бесплатный звонок по России</div>
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        <div class="topbar-sep"></div>
+        <!-- Нижняя полоса — навбар -->
+        <div class="navbar">
+          <nav class="nav-items">
+            <button
+              v-for="item in items"
+              :key="item.label"
+              class="nav-item"
+              @click="item.command"
+            >
+              <i :class="item.icon" class="nav-icon"></i>
+              <span>{{ item.label }}</span>
+            </button>
+          </nav>
 
-        <div class="topbar-item topbar-link" @click="router.push('/contacts')">
-          <span>Адреса и контакты</span>
-        </div>
-
-        <div class="topbar-sep"></div>
-
-        <div class="topbar-item topbar-link" @click="router.push('/about')">
-          <span>О компании</span>
-        </div>
-
-        <!-- Правая часть -->
-        <div class="topbar-sep" style="margin-left: auto;"></div>
-
-        <div class="topbar-item topbar-phone">
-          <div>
-            <div class="phone-number">+7 (3466) 29‒13‒45</div>
-            <div class="phone-sub">Бесплатный звонок по России</div>
+          <div class="nav-actions">
+            <div class="cart-btn" @click="router.push('/cart')" title="Корзина">
+              <i class="pi pi-shopping-cart"></i>
+              <span v-if="count > 0" class="cart-badge">{{ count }}</span>
+            </div>
+            <i class="pi pi-user nav-user-icon" @click="toggleUserMenu" aria-haspopup="true" aria-controls="overlay_menu"></i>
+            <Menu ref="userMenu" id="overlay_menu" :model="userMenuItems" :popup="true" />
           </div>
         </div>
 
       </div>
     </div>
-
-    <!-- Основная навбар -->
-    <Menubar :model="items">
-      <template #start>
-        <img src="/src/assets/logo.svg" alt="logo" height="40" class="mr-2" style="cursor:pointer" @click="router.push('/')" />
-      </template>
-      <template #end>
-        <div class="flex align-items-center gap-5">
-          <div class="cart-btn" @click="router.push('/cart')" title="Корзина">
-            <i class="pi pi-shopping-cart" style="font-size: 1.4rem;"></i>
-            <span v-if="count > 0" class="cart-badge">{{ count }}</span>
-          </div>
-          <i class="pi pi-user" style="font-size: 1.5rem; cursor: pointer;" @click="toggleUserMenu" aria-haspopup="true" aria-controls="overlay_menu"></i>
-          <Menu ref="userMenu" id="overlay_menu" :model="userMenuItems" :popup="true" />
-        </div>
-      </template>
-    </Menubar>
-
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Menubar from 'primevue/menubar';
 import Menu from 'primevue/menu';
 import AuthService from '@/services/AuthService';
 import { useCart } from '@/stores/cart';
@@ -69,11 +84,11 @@ const router = useRouter();
 const userMenu = ref();
 
 const items = ref([
-  { label: 'Анализы', icon: 'pi pi-fw pi-heart', command: () => { router.push('/analyzes'); } },
-  { label: 'Исследования', icon: 'pi pi-fw pi-wave-pulse', command: () => { router.push('/panels'); } },
-  { label: 'Мои заказы', icon: 'pi pi-fw pi-receipt', command: () => { router.push('/orders'); } },
-  { label: 'Пациенты', icon: 'pi pi-fw pi-users', command: () => { router.push('/patients'); } },
-  { label: 'Результаты анализов', icon: 'pi pi-fw pi-search', command: () => { router.push('/results-search'); } }
+  { label: 'Анализы',            icon: 'pi pi-fw pi-heart',      command: () => router.push('/analyzes') },
+  { label: 'Исследования',       icon: 'pi pi-fw pi-wave-pulse',  command: () => router.push('/panels') },
+  { label: 'Мои заказы',         icon: 'pi pi-fw pi-receipt',     command: () => router.push('/orders') },
+  { label: 'Пациенты',           icon: 'pi pi-fw pi-users',       command: () => router.push('/patients') },
+  { label: 'Результаты анализов',icon: 'pi pi-fw pi-search',      command: () => router.push('/results-search') },
 ]);
 
 const toggleUserMenu = (event) => {
@@ -84,7 +99,7 @@ const userMenuItems = ref([
   {
     label: 'Профиль',
     icon: 'pi pi-fw pi-user',
-    command: () => { router.push('/profile'); }
+    command: () => router.push('/profile'),
   },
   { separator: true },
   {
@@ -99,36 +114,71 @@ const userMenuItems = ref([
         localStorage.removeItem('authToken');
         router.push('/login');
       }
-    }
-  }
+    },
+  },
 ]);
 </script>
 
 <style scoped>
+/* ── Обёртка ── */
 .header-wrapper {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding-top: 6px;
   background: #f0f9ff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-:deep(.p-menubar) {
-  background: #eaeff5;
-  border: none;
-  border-radius: 0;
-  border-top: 1px solid #d8e0ea;
+/* ── Основная сетка: лого | правая часть ── */
+.header-layout {
+  display: flex;
+  align-items: stretch;
 }
 
-/* Топбар */
+/* ── Лого ── */
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.75rem;
+  background: #f0f9ff;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Разделитель только на уровне нижнего навбара (52px снизу) */
+.logo-area::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  width: 1px;
+  background: #d8e0ea;
+}
+
+.logo-img {
+  height: 44px;
+  display: block;
+}
+
+/* ── Правая часть ── */
+.header-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Топбар ── */
 .topbar {
   background: #f0f9ff;
-  border-bottom: 1px solid #bae6fd;
+  border-bottom: 1px solid #d8e0ea;
   padding: 0 1rem;
 }
 
 .topbar-inner {
   display: flex;
   align-items: center;
-  height: 28px;
+  height: 32px;
 }
 
 .topbar-item {
@@ -176,12 +226,71 @@ const userMenuItems = ref([
   line-height: 1;
 }
 
-/* Корзина */
+/* ── Навбар ── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eaeff5;
+  padding: 0 1rem;
+  height: 52px;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  height: 100%;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 1rem;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1e293b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+  border-radius: 6px;
+  letter-spacing: 0.01em;
+}
+
+.nav-item:hover {
+  color: #1d4ed8;
+  background: #dce8f4;
+}
+
+.nav-icon {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* ── Правая часть навбара ── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-right: 0.5rem;
+}
+
 .cart-btn {
   position: relative;
   cursor: pointer;
   display: flex;
   align-items: center;
+  font-size: 1.4rem;
+  color: #374151;
+  transition: color 0.15s;
+}
+
+.cart-btn:hover {
+  color: #1d4ed8;
 }
 
 .cart-badge {
@@ -190,14 +299,25 @@ const userMenuItems = ref([
   right: -10px;
   background: #3b82f6;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  min-width: 1.4rem;
-  height: 1.4rem;
+  min-width: 1.3rem;
+  height: 1.3rem;
   border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.3rem;
+  padding: 0 0.25rem;
+}
+
+.nav-user-icon {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #374151;
+  transition: color 0.15s;
+}
+
+.nav-user-icon:hover {
+  color: #1d4ed8;
 }
 </style>

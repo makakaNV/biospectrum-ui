@@ -14,6 +14,7 @@ import ResultsSearch from '../views/ResultsSearch.vue'
 import About from '../views/About.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Vacancies from '../views/Vacancies.vue'
+import AboutProject from '../views/AboutProject.vue'
 
 
 const routes = [
@@ -31,7 +32,8 @@ const routes = [
   { path: '/results-search', name: 'ResultsSearch', component: ResultsSearch },
   { path: '/about', name: 'About', component: About },
   { path: '/terms', name: 'PrivacyPolicy', component: PrivacyPolicy },
-  { path: '/vacancies', name: 'Vacancies', component: Vacancies }
+  { path: '/vacancies', name: 'Vacancies', component: Vacancies },
+  { path: '/about-project', name: 'AboutProject', component: AboutProject }
 ]
 
 const router = createRouter({
