@@ -1,0 +1,2690 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Analyses service",
+    "description": "Analyses restapi service for medstorm project",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://62.113.42.116:8100",
+      "description": "Gateway server"
+    },
+    {
+      "url": "http://62.113.42.116:8183",
+      "description": "Analyses service server"
+    }
+  ],
+  "security": [
+    {
+      "Authorization": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Biomaterials",
+      "description": "Biomaterials methods"
+    },
+    {
+      "name": "Containers",
+      "description": "Containers methods"
+    },
+    {
+      "name": "Specimens",
+      "description": "Specimens methods"
+    },
+    {
+      "name": "Panels Groups",
+      "description": "Panels group methods"
+    },
+    {
+      "name": "Categories",
+      "description": "Analyses categories methods"
+    },
+    {
+      "name": "Tests",
+      "description": "Lab tests methods"
+    },
+    {
+      "name": "Panels",
+      "description": "Analyses panels methods"
+    },
+    {
+      "name": "Analyses",
+      "description": "Analyses methods"
+    }
+  ],
+  "paths": {
+    "/panels/{id}": {
+      "get": {
+        "tags": [
+          "Panels"
+        ],
+        "summary": "Get panel by id",
+        "description": "returns panel by its id",
+        "operationId": "getPanelById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePanelResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Panels"
+        ],
+        "summary": "Update panel by id",
+        "description": "updates panel by its id",
+        "operationId": "updatePanelById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PanelUpdateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePanelResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Panels"
+        ],
+        "summary": "Delete panel by id",
+        "description": "depending on the softDelete parameter either deletes panel from the system or marks it as deleted",
+        "operationId": "deletePanelById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "softDelete",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePanelResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/{id}": {
+      "get": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Get analysis by id",
+        "description": "returns analysis by its id",
+        "operationId": "getAnalysisById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Update analysis by id",
+        "description": "updates analysis by its id",
+        "operationId": "updateAnalysis",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisUpdateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Delete analysis by id",
+        "description": "depending on the softDelete parameter either deletes analysis from the system or marks it as deleted",
+        "operationId": "deleteAnalysis",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "softDelete",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panels": {
+      "post": {
+        "tags": [
+          "Panels"
+        ],
+        "summary": "Create new panel",
+        "description": "saves new panel to the system",
+        "operationId": "createPanel",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PanelCreateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePanelResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/containers": {
+      "post": {
+        "tags": [
+          "Containers"
+        ],
+        "summary": "Create new container",
+        "description": "saves new container to the system",
+        "operationId": "createContainer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerCreateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseContainerResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/biomaterials": {
+      "post": {
+        "tags": [
+          "Biomaterials"
+        ],
+        "summary": "Create new biomaterial",
+        "description": "saves new biomaterial to the system",
+        "operationId": "createBiomaterial",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BiomaterialCreateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseBiomaterialResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Create new analysis",
+        "description": "saves new analysis to the system",
+        "operationId": "createAnalysis",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisCreateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/search": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Search analyses",
+        "description": "Searches/sorts analyses by predicates and sort field",
+        "operationId": "searchAnalyses",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisSearchRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/ids": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Get analyses by ids",
+        "description": "Returns a list of analyses with requested ids",
+        "operationId": "getAllAnalysesByIds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseListAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/exists": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "operationId": "exists",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tests/results/for-specimen/{id}": {
+      "patch": {
+        "tags": [
+          "Tests"
+        ],
+        "summary": "Set tests results for one specimen",
+        "operationId": "setTestResultsForSpecimen",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiplyTestResultsCreateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseListTestResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/specimens/collect/order/{id}": {
+      "patch": {
+        "tags": [
+          "Specimens"
+        ],
+        "summary": "Set specimens collected",
+        "description": "Marks specimens of current",
+        "operationId": "setSpecimensCollectedByOrderId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseListSpecimenResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tests/{uuid}": {
+      "get": {
+        "tags": [
+          "Tests"
+        ],
+        "summary": "Get test by uuid",
+        "description": "returns test by its uuid",
+        "operationId": "getTestById",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseTestResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tests/results/order/{id}": {
+      "get": {
+        "tags": [
+          "Tests"
+        ],
+        "summary": "Get all test results by order id",
+        "description": "Returns all test results for every specimen belonging to the given order",
+        "operationId": "getTestResultsByOrderId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseListTestResultResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tests/all": {
+      "get": {
+        "tags": [
+          "Tests"
+        ],
+        "summary": "Get all tests",
+        "description": "returns a paginated list of all tests",
+        "operationId": "getAllTests",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseTestResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tests/all/specimens/{id}": {
+      "get": {
+        "tags": [
+          "Tests"
+        ],
+        "summary": "Get all tests by specimen id",
+        "description": "returns a paginated list of all tests assigned to specimen",
+        "operationId": "getAllTestsBySpecimenId",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseTestResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/specimens/{id}": {
+      "get": {
+        "tags": [
+          "Specimens"
+        ],
+        "summary": "Get specimen by id",
+        "description": "returns specimen by its id",
+        "operationId": "getSpecimenById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseSpecimenResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/specimens/order/{id}": {
+      "get": {
+        "tags": [
+          "Specimens"
+        ],
+        "summary": "Get specimens by orderId",
+        "description": "returns list of specimens bt orderId",
+        "operationId": "getSpecimensByOrderId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseListSpecimenResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/specimens/all": {
+      "get": {
+        "tags": [
+          "Specimens"
+        ],
+        "summary": "Get all specimens",
+        "description": "returns a paginated list of all specimens",
+        "operationId": "getAllSpecimens",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseSpecimenResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panels/all": {
+      "get": {
+        "tags": [
+          "Panels"
+        ],
+        "summary": "Get all panels",
+        "description": "returns a paginated list of all panels",
+        "operationId": "getAllPanels",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponsePanelResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panels/all/{panelsGroupCode}": {
+      "get": {
+        "tags": [
+          "Panels"
+        ],
+        "summary": "Get all panels by panel group",
+        "description": "returns a paginated list of all panels that refer to required panel group",
+        "operationId": "getAllPanelsByPanelsGroupCode",
+        "parameters": [
+          {
+            "name": "panelsGroupCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponsePanelResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/panels-group/all": {
+      "get": {
+        "tags": [
+          "Panels Groups"
+        ],
+        "summary": "Get all panels groups",
+        "description": "returns a paginated list of all panels groups",
+        "operationId": "getAllPanelsGroups",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponsePanelsGroupResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/containers/{id}": {
+      "get": {
+        "tags": [
+          "Containers"
+        ],
+        "summary": "Get container by id",
+        "description": "returns container by its id",
+        "operationId": "getContainerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseContainerResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Containers"
+        ],
+        "summary": "Soft delete container by id",
+        "operationId": "deleteContainer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "softDelete",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseContainerResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/containers/all": {
+      "get": {
+        "tags": [
+          "Containers"
+        ],
+        "summary": "Get all containers",
+        "description": "returns a paginated list of all containers",
+        "operationId": "getAllContainers",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseContainerResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/all": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get all categories",
+        "description": "returns a paginated list of all categories",
+        "operationId": "getAllCategories",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseCategoryResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/biomaterials/{id}": {
+      "get": {
+        "tags": [
+          "Biomaterials"
+        ],
+        "summary": "Get biomaterial by id",
+        "description": "returns biomaterial by its id",
+        "operationId": "getBiomaterialById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseBiomaterialResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Biomaterials"
+        ],
+        "summary": "Delete biomaterial by id",
+        "description": "depending on the softDelete parameter either deletes biomaterial from the system or marks it as deleted",
+        "operationId": "deleteBiomaterialById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "softDelete",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponseBiomaterialResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/biomaterials/all": {
+      "get": {
+        "tags": [
+          "Biomaterials"
+        ],
+        "summary": "Get all biomaterials",
+        "description": "returns a paginated list of all biomaterials",
+        "operationId": "getAllBiomaterials",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseBiomaterialResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/specimens": {
+      "get": {
+        "tags": [
+          "Analyses"
+        ],
+        "operationId": "getSpecimensForAnalysesList",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/SpecimenGroupingKey"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/all": {
+      "get": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Get all analysis",
+        "description": "returns a paginated list of all analysis",
+        "operationId": "getAllAnalysis",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyses/all/{categoryCode}": {
+      "get": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Get all analysis by category code",
+        "description": "returns a paginated list of all analysis that refer to required category group",
+        "operationId": "getAllAnalysisByCategoryCode",
+        "parameters": [
+          {
+            "name": "categoryCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PanelUpdateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 2
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "discountPercent": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "analysesIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "analysesIds",
+          "code",
+          "name"
+        ]
+      },
+      "AnalysisResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "categoryCode": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponsePanelResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PanelResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PanelResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "discountPercent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groupCode": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "analyses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalysisResponseDTO"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "AnalysisUpdateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 2
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 2
+          },
+          "price": {
+            "type": "number",
+            "maximum": 1000000,
+            "minimum": 0.01
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "price"
+        ]
+      },
+      "MedCoreResponseAnalysisResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/AnalysisResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PanelCreateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 2
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "groupCode": {
+            "type": "string"
+          },
+          "discountPercent": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "analysesIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "analysesIds",
+          "code",
+          "name"
+        ]
+      },
+      "ContainerCreateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "containerType": {
+            "type": "string",
+            "enum": [
+              "VACUTAINER_RED",
+              "VACUTAINER_GREEN",
+              "VACUTAINER_BLUE",
+              "URINE_CUP"
+            ]
+          },
+          "anticoagulantType": {
+            "type": "string",
+            "enum": [
+              "EDTA",
+              "CITRATE",
+              "HEPARIN"
+            ]
+          }
+        },
+        "required": [
+          "anticoagulantType",
+          "containerType",
+          "name"
+        ]
+      },
+      "ContainerResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "containerType": {
+            "type": "string",
+            "enum": [
+              "VACUTAINER_RED",
+              "VACUTAINER_GREEN",
+              "VACUTAINER_BLUE",
+              "URINE_CUP"
+            ]
+          },
+          "anticoagulantType": {
+            "type": "string",
+            "enum": [
+              "EDTA",
+              "CITRATE",
+              "HEPARIN"
+            ]
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponseContainerResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/ContainerResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BiomaterialCreateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "VENOUS_BLOOD",
+              "CAPILLARY_BLOOD",
+              "PLASMA",
+              "SALIVA"
+            ]
+          },
+          "collectTime": {
+            "type": "string",
+            "enum": [
+              "MORNING",
+              "DAILY",
+              "EVENING",
+              "RANDOM"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1
+          },
+          "availableContainersIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "availableContainersIds",
+          "code",
+          "collectTime",
+          "type"
+        ]
+      },
+      "BiomaterialResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "VENOUS_BLOOD",
+              "CAPILLARY_BLOOD",
+              "PLASMA",
+              "SALIVA"
+            ]
+          },
+          "collectTime": {
+            "type": "string",
+            "enum": [
+              "MORNING",
+              "DAILY",
+              "EVENING",
+              "RANDOM"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "availableContainers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContainerResponseDTO"
+            },
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponseBiomaterialResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/BiomaterialResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AnalysisCreateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 2
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "categoryCode": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "maximum": 1000000,
+            "minimum": 0.01
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "price"
+        ]
+      },
+      "AnalysisSearchRequestDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Match in name",
+            "examples": [
+              "glucose",
+              "gl"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "description": "Match in code",
+            "examples": [
+              "GL-40",
+              "GL"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Match in description",
+            "example": "glucose"
+          },
+          "price": {
+            "type": "number",
+            "description": "Filter on exact price",
+            "example": 2350
+          },
+          "deleted": {
+            "type": "boolean",
+            "description": "Filter on soft deleted records",
+            "example": true
+          },
+          "keyword": {
+            "type": "string",
+            "description": "Keyword matches in name, description & code",
+            "examples": [
+              "gl",
+              "40",
+              "is the"
+            ]
+          },
+          "sortField": {
+            "type": "string",
+            "description": "Sorting by one of values. ID is default",
+            "enum": [
+              "NAME",
+              "CODE",
+              "PRICE"
+            ],
+            "example": "CODE"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponseAnalysisResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponseAnalysisResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PaginationResponseAnalysisResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalysisResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "MedCoreResponseListAnalysisResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalysisResponseDTO"
+            }
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MultiplyTestResultsCreateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Map where key is analysis ID and value is the test result for analysis"
+          }
+        },
+        "required": [
+          "results"
+        ]
+      },
+      "MedCoreResponseListTestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestResponseDTO"
+            }
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "specimenId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "analysisId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "CANCELLED"
+            ]
+          },
+          "result": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "completedAt": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MedCoreResponseListSpecimenResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecimenResponseDTO"
+            }
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SpecimenResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "barcode": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "patientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "biomaterialId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "containerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AWAITS_COLLECTION",
+              "COLLECTED",
+              "IN_LAB",
+              "DISPOSED"
+            ]
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "collectionTimestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MedCoreResponseTestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/TestResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponseListTestResultResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestResultResponseDTO"
+            }
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TestResultResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "analysisName": {
+            "type": "string"
+          },
+          "analysisCode": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "CANCELLED"
+            ]
+          },
+          "completedAt": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponseTestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponseTestResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponseTestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "MedCoreResponseSpecimenResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/SpecimenResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponseSpecimenResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponseSpecimenResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponseSpecimenResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecimenResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponsePanelResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponsePanelResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponsePanelResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PanelResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponsePanelsGroupResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponsePanelsGroupResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponsePanelsGroupResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PanelsGroupResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "PanelsGroupResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponseContainerResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponseContainerResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponseContainerResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContainerResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "CategoryResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponseCategoryResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponseCategoryResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponseCategoryResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "MedCoreResponsePaginationResponseBiomaterialResponseDTO": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/PaginationResponseBiomaterialResponseDTO"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginationResponseBiomaterialResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BiomaterialResponseDTO"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "Analysis": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "availableBiomaterials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Biomaterial"
+            },
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          }
+        }
+      },
+      "Biomaterial": {
+        "type": "object",
+        "properties": {
+          "analysesSet": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Analysis"
+            },
+            "uniqueItems": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "VENOUS_BLOOD",
+              "CAPILLARY_BLOOD",
+              "PLASMA",
+              "SALIVA"
+            ]
+          },
+          "collectTime": {
+            "type": "string",
+            "enum": [
+              "MORNING",
+              "DAILY",
+              "EVENING",
+              "RANDOM"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "availableContainers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Container"
+            },
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "createdAt",
+          "deleted",
+          "name",
+          "updatedAt"
+        ]
+      },
+      "Container": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "containerType": {
+            "type": "string",
+            "enum": [
+              "VACUTAINER_RED",
+              "VACUTAINER_GREEN",
+              "VACUTAINER_BLUE",
+              "URINE_CUP"
+            ]
+          },
+          "anticoagulantType": {
+            "type": "string",
+            "enum": [
+              "EDTA",
+              "CITRATE",
+              "HEPARIN"
+            ]
+          },
+          "biomaterialsSet": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Biomaterial"
+            },
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SpecimenGroupingKey": {
+        "type": "object",
+        "properties": {
+          "biomaterial": {
+            "$ref": "#/components/schemas/Biomaterial"
+          },
+          "container": {
+            "$ref": "#/components/schemas/Container"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

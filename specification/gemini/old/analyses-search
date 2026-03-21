@@ -1,0 +1,157 @@
+    "/analyses/search": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Search analyses",
+        "description": "Searches/sorts analyses by predicates and sort field",
+        "operationId": "searchAnalyses",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisSearchRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MedCoreResponsePaginationResponseAnalysisResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+         "AnalysisSearchRequestDTO": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Match in name",
+                "examples": [
+                  "glucose",
+                  "gl"
+                ]
+              },
+              "code": {
+                "type": "string",
+                "description": "Match in code",
+                "examples": [
+                  "GL-40",
+                  "GL"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "Match in description",
+                "example": "glucose"
+              },
+              "price": {
+                "type": "number",
+                "description": "Filter on exact price",
+                "example": 2350
+              },
+              "deleted": {
+                "type": "boolean",
+                "description": "Filter on soft deleted records",
+                "example": true
+              },
+              "keyword": {
+                "type": "string",
+                "description": "Keyword matches in name, description & code",
+                "examples": [
+                  "gl",
+                  "40",
+                  "is the"
+                ]
+              },
+              "sortField": {
+                "type": "string",
+                "description": "ONLY ASC!!! sorting by one of values. ID is default",
+                "enum": [
+                  "NAME",
+                  "CODE",
+                  "PRICE"
+                ],
+                "example": "CODE"
+              }
+            }
+          },
+
+
+         "AnalysisResponseDTO": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "name": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              },
+              "categoryCode": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "updatedAt": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "deleted": {
+                "type": "boolean"
+              }
+            }
+          },
+
+
+    also, some fields in search request can be combined like this:
+    {
+        "name": "Анализ",
+        "description": "крови",
+
+        "sortField": "CODE" // will sort it in asc
+    }
+    sorting and finding in one request

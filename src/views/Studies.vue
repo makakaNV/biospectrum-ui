@@ -1,0 +1,1 @@
+<template><div><h1>Исследования</h1></div></template>
