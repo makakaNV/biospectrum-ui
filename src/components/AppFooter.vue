@@ -58,9 +58,9 @@ const year = computed(() => new Date().getFullYear());
 
 <style scoped>
 .app-footer {
-  background: #18181b;
+  background: #f8fafc;
   margin-top: 4rem;
-  border-top: 1px solid #27272a;
+  border-top: 1px solid #e2e8f0;
 }
 
 .footer-inner {
@@ -90,13 +90,13 @@ const year = computed(() => new Date().getFullYear());
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #71717a;
+  color: #64748b;
   margin-bottom: 0.4rem;
 }
 
 .footer-link {
   font-size: 0.85rem;
-  color: #a1a1aa;
+  color: #64748b;
   cursor: pointer;
   transition: color 0.15s;
   text-decoration: none;
@@ -104,20 +104,20 @@ const year = computed(() => new Date().getFullYear());
 }
 
 .footer-link:hover {
-  color: #ffffff;
+  color: #0f172a;
 }
 
 /* Бренд */
 .brand-name {
   font-size: 1.1rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   letter-spacing: 0.03em;
 }
 
 .brand-sub {
   font-size: 0.75rem;
-  color: #52525b;
+  color: #64748b;
 }
 
 .footer-contact {
@@ -129,7 +129,7 @@ const year = computed(() => new Date().getFullYear());
 .footer-phone {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .tg-link {
@@ -152,7 +152,7 @@ const year = computed(() => new Date().getFullYear());
 
 .footer-hint {
   font-size: 0.68rem;
-  color: #52525b;
+  color: #64748b;
   margin-top: -0.2rem;
 }
 
@@ -162,6 +162,6 @@ const year = computed(() => new Date().getFullYear());
   max-width: 1280px;
   margin: 0 auto;
   font-size: 0.75rem;
-  color: #52525b;
+  color: #64748b;
 }
 </style>

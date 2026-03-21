@@ -23,7 +23,7 @@
         <!-- Описание группы -->
         <div v-if="currentDescription" class="group-description border-round p-3 mb-4">
           <div class="flex align-items-start gap-2">
-            <i class="pi pi-info-circle mt-1 flex-shrink-0" style="color: #22c55e; font-size: 1rem;"></i>
+            <i class="pi pi-info-circle mt-1 flex-shrink-0" style="color: #3b82f6; font-size: 1rem;"></i>
             <p class="m-0 text-color-secondary line-height-3" style="font-size: 0.9rem;">{{ currentDescription }}</p>
           </div>
         </div>
@@ -148,8 +148,8 @@ onMounted(async () => {
 }
 
 .group-btn {
-  background: var(--surface-card);
-  border: 1.5px solid var(--surface-border);
+  background: #f5f7fa;
+  border: 1.5px solid #e8edf2;
   border-left: 3px solid transparent;
   border-radius: 8px;
   padding: 0.75rem 1rem;
@@ -165,16 +165,16 @@ onMounted(async () => {
 }
 
 .group-btn:hover {
-  border-left-color: var(--primary-color);
-  color: var(--primary-color);
-  background: var(--surface-hover);
+  border-left-color: #3b82f6;
+  color: #2563eb;
+  background: #eaeff5;
 }
 
 .group-btn.active {
-  background: var(--surface-hover);
-  border-color: var(--surface-border);
-  border-left: 4px solid #22c55e;
-  color: #16a34a;
+  background: #eaeff5;
+  border-color: #d8e0ea;
+  border-left: 4px solid #3b82f6;
+  color: #2563eb;
   font-weight: 700;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }

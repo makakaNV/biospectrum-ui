@@ -11,7 +11,7 @@
     <div class="top-grid mb-4">
 
       <!-- Состав заказа -->
-      <div class="surface-card border-round shadow-1 p-4">
+      <div class="checkout-block border-round shadow-1 p-4">
         <div class="font-bold text-lg mb-3">Состав заказа</div>
         <div class="flex flex-column gap-2">
           <div
@@ -32,7 +32,7 @@
           <div>
             <div v-if="totalDiscount > 0" class="flex gap-3 text-sm text-color-secondary mb-1">
               <span>Скидка:</span>
-              <span class="text-green-600">−{{ formatCurrency(totalDiscount) }}</span>
+              <span class="text-blue-600">−{{ formatCurrency(totalDiscount) }}</span>
             </div>
             <div class="font-bold text-xl">Итого: {{ formatCurrency(total) }}</div>
           </div>
@@ -44,7 +44,7 @@
       <div class="flex flex-column gap-3">
 
         <!-- Пациент -->
-        <div class="surface-card border-round shadow-1 p-4">
+        <div class="checkout-block border-round shadow-1 p-4">
           <div class="font-bold text-lg mb-3">Пациент</div>
           <div v-if="patient" class="flex align-items-start gap-3">
             <div class="patient-icon-wrap" :style="{ background: patient.gender === 'MALE' ? 'var(--blue-50)' : 'var(--pink-50)' }">
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Выбранный офис -->
-        <div class="surface-card border-round shadow-1 p-4">
+        <div class="checkout-block border-round shadow-1 p-4">
           <div class="font-bold text-lg mb-2">Выбранный офис</div>
           <div class="text-color-secondary text-sm">Офис не выбран</div>
         </div>
@@ -80,7 +80,7 @@
     </div>
 
     <!-- Оплата -->
-    <div class="surface-card border-round shadow-1 p-4">
+    <div class="checkout-block border-round shadow-1 p-4">
       <div class="font-bold text-lg mb-4">Способ оплаты</div>
 
       <div class="flex gap-3 mb-4">
@@ -320,6 +320,11 @@ const formatDate = (val) => {
   font-size: 1.3rem;
 }
 
+.checkout-block {
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
+}
+
 .payment-option {
   flex: 1;
   display: flex;
@@ -327,12 +332,12 @@ const formatDate = (val) => {
   align-items: center;
   justify-content: center;
   padding: 1.25rem 1rem;
-  border: 2px solid var(--surface-border);
+  border: 2px solid #e2e8ef;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.15s;
   color: var(--text-color-secondary);
-  background: var(--surface-ground);
+  background: #eaeff5;
   gap: 0.25rem;
 }
 
@@ -342,24 +347,24 @@ const formatDate = (val) => {
 }
 
 .payment-option.selected {
-  border-color: #22c55e;
-  background: #f0fdf4;
-  color: #15803d;
+  border-color: #3b82f6;
+  background: #eff6ff;
+  color: #1d4ed8;
 }
 
 .card-form {
-  background: var(--surface-ground);
+  background: #eaeff5;
   border-radius: 8px;
   padding: 1.25rem;
-  border: 1px solid var(--surface-border);
+  border: 1px solid #d8e0ea;
   max-width: 400px;
   margin: 0 auto;
 }
 
 .office-info {
-  background: var(--surface-ground);
+  background: #eaeff5;
   border-radius: 8px;
   padding: 1rem;
-  border: 1px solid var(--surface-border);
+  border: 1px solid #d8e0ea;
 }
 </style>

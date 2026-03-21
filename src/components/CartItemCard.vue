@@ -1,5 +1,5 @@
 <template>
-  <div class="cart-item-card p-3 border-round surface-card shadow-1">
+  <div class="cart-item-card p-3 border-round shadow-1">
     <div class="flex align-items-start gap-3">
 
       <!-- Инфо -->
@@ -12,7 +12,7 @@
           <span v-if="item.type === 'panel' && item.discountPercent > 0" class="text-color-secondary text-sm line-through">
             {{ formatCurrency(item.price) }}
           </span>
-          <span class="font-bold" :class="item.type === 'panel' && item.discountPercent > 0 ? 'text-green-600' : ''">
+          <span class="font-bold" :class="item.type === 'panel' && item.discountPercent > 0 ? 'text-blue-600' : ''">
             {{ formatCurrency(itemPrice(item)) }}
           </span>
           <span v-if="item.type === 'panel' && item.discountPercent > 0" class="discount-badge">
@@ -60,13 +60,18 @@ const formatCurrency = (v) => {
 </script>
 
 <style scoped>
+.cart-item-card {
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
+}
+
 .discount-badge {
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.1rem 0.4rem;
   border-radius: 1rem;
-  background: var(--green-100);
-  color: var(--green-700);
+  background: var(--blue-100);
+  color: var(--blue-700);
 }
 
 .analyses-toggle {

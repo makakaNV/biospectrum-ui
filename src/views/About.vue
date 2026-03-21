@@ -57,7 +57,7 @@
       <p class="lead">Компания MedScan была основана в 2020 году с амбициозной целью — изменить представление о лабораторной диагностике, сделав её быстрой, точной и по-настоящему клиентоцентричной. Наша история — это история постоянного развития, технологического обновления и неустанной заботы о качестве.</p>
 
       <div class="timeline">
-        <div v-for="item in historyItems" :key="item.year" class="timeline-card surface-card border-round shadow-1">
+        <div v-for="item in historyItems" :key="item.year" class="timeline-card border-round shadow-1">
           <div class="timeline-body">
             <div class="timeline-year">{{ item.year }}</div>
             <div class="timeline-event">{{ item.event }}</div>
@@ -155,7 +155,7 @@ const historyItems = [
 }
 
 .tab-btn.active {
-  background: #22c55e;
+  background: #3b82f6;
   color: #fff;
   font-weight: 700;
 }
@@ -222,6 +222,8 @@ const historyItems = [
   display: flex;
   overflow: hidden;
   min-height: 180px;
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
 }
 
 .timeline-body {
@@ -232,7 +234,7 @@ const historyItems = [
 .timeline-year {
   font-size: 2rem;
   font-weight: 900;
-  color: #22c55e;
+  color: #3b82f6;
   line-height: 1;
   margin-bottom: 0.4rem;
 }

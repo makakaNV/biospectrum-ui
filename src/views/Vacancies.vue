@@ -65,7 +65,7 @@ const offers = [
 
 /* Герой */
 .vacancies-hero {
-  background: linear-gradient(135deg, #15803d, #22c55e);
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
   padding: 2.5rem;
   display: flex;
   align-items: center;
@@ -121,8 +121,8 @@ const offers = [
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: #f0fdf4;
-  color: #16a34a;
+  background: #eff6ff;
+  color: #2563eb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,7 +156,7 @@ const offers = [
 .cta-btn:hover { opacity: 0.85; }
 
 .cta-primary {
-  background: #22c55e;
+  background: #3b82f6;
   color: #fff;
 }
 

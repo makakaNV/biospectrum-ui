@@ -37,5 +37,5 @@ onMounted(async () => {
 .prose ul, .prose ol { padding-left: 1.4rem; margin: 0 0 0.75rem; }
 .prose li { font-size: 0.95rem; line-height: 1.75; color: var(--text-color-secondary); margin-bottom: 0.3rem; }
 .prose strong { color: var(--text-color); }
-.prose a { color: #22c55e; }
+.prose a { color: #3b82f6; }
 </style>

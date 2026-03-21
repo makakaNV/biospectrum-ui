@@ -1,5 +1,5 @@
 <template>
-  <div class="panel-card p-4 border-round shadow-1 surface-card">
+  <div class="panel-card p-4 border-round shadow-1">
 
     <!-- Основная информация -->
     <div class="flex justify-content-between align-items-start gap-3">
@@ -15,7 +15,7 @@
         <div v-if="panel.discountPercent > 0" class="text-color-secondary text-sm line-through mb-1">
           {{ formatCurrency(panel.price) }}
         </div>
-        <div class="font-bold text-xl mb-1" :class="panel.discountPercent > 0 ? 'text-green-600' : ''">
+        <div class="font-bold text-xl mb-1" :class="panel.discountPercent > 0 ? 'text-blue-600' : ''">
           {{ formatCurrency(discountedPrice) }}
         </div>
         <div v-if="panel.discountPercent > 0" class="discount-badge mb-2">
@@ -80,13 +80,18 @@ const formatCurrency = (value) => {
 </script>
 
 <style scoped>
+.panel-card {
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
+}
+
 .description {
   max-width: 580px;
 }
 
 .discount-badge {
-  background: var(--green-100);
-  color: var(--green-700);
+  background: var(--blue-100);
+  color: var(--blue-700);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.1rem 0.5rem;

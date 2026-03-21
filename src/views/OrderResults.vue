@@ -9,7 +9,7 @@
     <template v-else>
 
       <!-- Шапка -->
-      <div class="results-header surface-card border-round shadow-1 p-4 mb-4">
+      <div class="results-header border-round shadow-1 p-4 mb-4">
         <div class="flex align-items-start justify-content-between flex-wrap gap-3">
           <div>
             <div class="flex align-items-center gap-2 mb-1">
@@ -34,7 +34,7 @@
       <Message v-if="error" severity="error" :closable="false" class="mb-3">{{ error }}</Message>
 
       <!-- Пусто -->
-      <div v-if="!error && results.length === 0" class="surface-card border-round shadow-1 p-6 text-center">
+      <div v-if="!error && results.length === 0" class="empty-results border-round shadow-1 p-6 text-center">
         <i class="pi pi-inbox mb-3" style="font-size: 2.5rem; color: var(--text-color-secondary);"></i>
         <p class="text-color-secondary m-0">Результаты пока не готовы</p>
       </div>
@@ -44,7 +44,7 @@
         <div
           v-for="(item, index) in results"
           :key="item.id"
-          class="result-card surface-card border-round shadow-1 overflow-hidden"
+          class="result-card border-round shadow-1 overflow-hidden"
         >
           <div class="flex">
 
@@ -156,12 +156,19 @@ onMounted(async () => {
   padding: 2rem 0;
 }
 
+.results-header,
+.result-card,
+.empty-results {
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
+}
+
 .completed-badge {
   display: inline-flex;
   align-items: center;
-  background: #f0fdf4;
-  color: #15803d;
-  border: 1px solid #bbf7d0;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
   border-radius: 999px;
   padding: 0.35rem 1rem;
   font-size: 0.85rem;
@@ -175,7 +182,7 @@ onMounted(async () => {
   flex-shrink: 0;
   font-size: 1rem;
 }
-.number-completed   { background: #f0fdf4; color: #15803d; }
+.number-completed   { background: #eff6ff; color: #1d4ed8; }
 .number-in-progress { background: #eef2ff; color: #4338ca; }
 .number-pending     { background: #fff7ed; color: #c2410c; }
 .number-cancelled   { background: #f3f4f6; color: #6b7280; }
@@ -190,7 +197,7 @@ onMounted(async () => {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.badge-completed   { background: #dcfce7; color: #166534; }
+.badge-completed   { background: #dbeafe; color: #1e40af; }
 .badge-in-progress { background: #e0e7ff; color: #4338ca; }
 .badge-pending     { background: #ffedd5; color: #c2410c; }
 .badge-cancelled   { background: #f3f4f6; color: #6b7280; }

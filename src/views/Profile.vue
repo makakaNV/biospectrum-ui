@@ -9,7 +9,7 @@
     <template v-else-if="user">
 
       <!-- Аватар + имя -->
-      <div class="profile-hero surface-card border-round shadow-1 p-5 mb-4 flex align-items-center gap-4">
+      <div class="profile-hero border-round shadow-1 p-5 mb-4 flex align-items-center gap-4">
         <div class="avatar flex align-items-center justify-content-center">
           <i class="pi pi-user" style="font-size: 2rem; color: #fff;"></i>
         </div>
@@ -20,7 +20,7 @@
       </div>
 
       <!-- Детали аккаунта -->
-      <div class="surface-card border-round shadow-1 p-4 mb-4">
+      <div class="account-details border-round shadow-1 p-4 mb-4">
         <div class="text-xs font-bold text-color-secondary uppercase mb-3" style="letter-spacing: 0.06em;">Данные аккаунта</div>
         <div class="flex flex-column gap-3">
           <div class="info-row">
@@ -41,7 +41,7 @@
       <!-- Быстрые переходы -->
       <div class="text-xs font-bold text-color-secondary uppercase mb-3" style="letter-spacing: 0.06em;">Быстрый доступ</div>
       <div class="flex gap-3 flex-wrap">
-        <div class="quick-link surface-card border-round shadow-1 p-4 flex-1 flex align-items-center gap-3 cursor-pointer" @click="router.push('/orders')">
+        <div class="quick-link border-round shadow-1 p-4 flex-1 flex align-items-center gap-3 cursor-pointer" @click="router.push('/orders')">
           <div class="quick-icon" style="background: #eff6ff; color: #1d4ed8;">
             <i class="pi pi-receipt" style="font-size: 1.4rem;"></i>
           </div>
@@ -52,8 +52,8 @@
           <i class="pi pi-chevron-right ml-auto text-color-secondary"></i>
         </div>
 
-        <div class="quick-link surface-card border-round shadow-1 p-4 flex-1 flex align-items-center gap-3 cursor-pointer" @click="router.push('/patients')">
-          <div class="quick-icon" style="background: #f0fdf4; color: #15803d;">
+        <div class="quick-link border-round shadow-1 p-4 flex-1 flex align-items-center gap-3 cursor-pointer" @click="router.push('/patients')">
+          <div class="quick-icon" style="background: #eff6ff; color: #1d4ed8;">
             <i class="pi pi-users" style="font-size: 1.4rem;"></i>
           </div>
           <div>
@@ -106,11 +106,18 @@ onMounted(async () => {
   padding: 2rem 0;
 }
 
+.profile-hero,
+.account-details,
+.quick-link {
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
+}
+
 .avatar {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #22c55e, #15803d);
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   flex-shrink: 0;
 }
 

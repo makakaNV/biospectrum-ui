@@ -1,5 +1,5 @@
 <template>
-  <div class="order-card border-round shadow-1 surface-card overflow-hidden">
+  <div class="order-card border-round shadow-1 overflow-hidden">
     <div class="flex" style="min-height: 120px;">
 
       <!-- Левая часть — основная информация -->
@@ -96,8 +96,8 @@ const STATUS_MAP = {
   COMPLETED: {
     label: 'Выполнен',
     icon: 'pi pi-check-circle',
-    bg: '#f0fdf4',
-    color: '#15803d',
+    bg: '#eff6ff',
+    color: '#1d4ed8',
   },
   CANCELED: {
     label: 'Отменён',
@@ -132,6 +132,8 @@ const formatDate = (ts) => {
 <style scoped>
 .order-card {
   width: 100%;
+  background: #f2f4f7;
+  border: 1px solid #e2e8ef;
 }
 
 .order-comment {
@@ -156,7 +158,7 @@ const formatDate = (ts) => {
 }
 
 .results-zone {
-  background: #15803d;
+  background: #1d4ed8;
   color: #ffffff;
   padding: 0.65rem 0.5rem;
   cursor: pointer;
@@ -164,7 +166,7 @@ const formatDate = (ts) => {
 }
 
 .results-zone:hover {
-  background: #166534;
+  background: #1e40af;
 }
 
 .results-text {

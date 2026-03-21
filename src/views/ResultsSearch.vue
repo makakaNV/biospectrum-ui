@@ -1,6 +1,6 @@
 <template>
   <div class="search-page flex justify-content-center align-items-start pt-8">
-    <div class="search-card surface-card border-round shadow-2 p-5">
+    <div class="search-card border-round shadow-2 p-5">
 
       <div class="text-center mb-5">
         <i class="pi pi-search mb-3" style="font-size: 2.5rem; color: var(--primary-color);"></i>
@@ -86,5 +86,7 @@ const search = async () => {
 .search-card {
   width: 100%;
   max-width: 460px;
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
 }
 </style>

@@ -26,7 +26,7 @@
       </div>
 
       <!-- Правый блок — оформление -->
-      <div class="order-summary surface-card border-round shadow-1 p-4">
+      <div class="order-summary border-round shadow-1 p-4">
         <div class="flex justify-content-between align-items-center mb-4">
           <span class="font-bold text-lg">Оформление заказа</span>
           <span class="text-color-secondary text-sm">Позиции: {{ count }}</span>
@@ -37,7 +37,7 @@
           <span class="text-color-secondary">Сумма без скидок</span>
           <span>{{ formatCurrency(grossTotal) }}</span>
         </div>
-        <div v-if="totalDiscount > 0" class="flex justify-content-between mb-2 text-green-600">
+        <div v-if="totalDiscount > 0" class="flex justify-content-between mb-2 text-blue-600">
           <span>Скидка</span>
           <span>−{{ formatCurrency(totalDiscount) }}</span>
         </div>
@@ -156,8 +156,8 @@ onMounted(loadPatients);
 }
 
 .no-patients {
-  border: 1px dashed var(--surface-border);
-  background: var(--surface-ground);
+  border: 1px dashed #cbd5e1;
+  background: #f5f7fa;
 }
 
 .order-summary {
@@ -165,5 +165,7 @@ onMounted(loadPatients);
   flex-shrink: 0;
   position: sticky;
   top: 1rem;
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
 }
 </style>

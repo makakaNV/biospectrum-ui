@@ -1,5 +1,5 @@
 <template>
-  <div class="patient-card p-3 border-round shadow-1 surface-card flex flex-column">
+  <div class="patient-card p-3 border-round shadow-1 flex flex-column">
 
     <!-- Шапка: иконка пола, имя, кнопки -->
     <div class="flex align-items-center mb-3">
@@ -123,6 +123,8 @@ async function deletePatient() {
   width: 100%;
   max-width: 350px;
   box-sizing: border-box;
+  background: #f0f5fb;
+  border: 1px solid #dce8f4;
 }
 
 .gender-icon-wrap {

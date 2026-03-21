@@ -108,13 +108,20 @@ const userMenuItems = ref([
 .header-wrapper {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   padding-top: 6px;
-  background: #27272a;
+  background: #f0f9ff;
+}
+
+:deep(.p-menubar) {
+  background: #eaeff5;
+  border: none;
+  border-radius: 0;
+  border-top: 1px solid #d8e0ea;
 }
 
 /* Топбар */
 .topbar {
-  background: #27272a;
-  border-bottom: 1px solid #3f3f46;
+  background: #f0f9ff;
+  border-bottom: 1px solid #bae6fd;
   padding: 0 1rem;
 }
 
@@ -130,7 +137,7 @@ const userMenuItems = ref([
   gap: 0.4rem;
   padding: 0 0.9rem;
   height: 100%;
-  color: #a1a1aa;
+  color: #64748b;
   font-size: 0.78rem;
   white-space: nowrap;
   cursor: default;
@@ -142,7 +149,7 @@ const userMenuItems = ref([
 }
 
 .topbar-link:hover {
-  color: #ffffff;
+  color: #1e40af;
 }
 
 .topbar-icon {
@@ -152,20 +159,20 @@ const userMenuItems = ref([
 .topbar-sep {
   width: 1px;
   height: 16px;
-  background: #3f3f46;
+  background: #bae6fd;
   flex-shrink: 0;
 }
 
 .phone-number {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #1e40af;
   line-height: 1.3;
 }
 
 .phone-sub {
   font-size: 0.62rem;
-  color: #71717a;
+  color: #64748b;
   line-height: 1;
 }
 
@@ -181,7 +188,7 @@ const userMenuItems = ref([
   position: absolute;
   top: -8px;
   right: -10px;
-  background: #22c55e;
+  background: #3b82f6;
   color: #fff;
   font-size: 0.75rem;
   font-weight: 700;

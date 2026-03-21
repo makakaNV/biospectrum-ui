@@ -1,5 +1,5 @@
 <template>
-  <div class="analysis-card p-4 border-round shadow-2 surface-overlay">
+  <div class="analysis-card p-4 border-round shadow-1">
     <div class="card-content">
       <div class="main-info">
         <div class="text-xs text-color-secondary">ID: {{ analysis.id }}</div>
@@ -47,6 +47,8 @@ const formatCurrency = (value) => {
 .analysis-card {
   width: 100%;
   margin-bottom: 0.75rem;
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
 }
 .card-content {
   display: flex;

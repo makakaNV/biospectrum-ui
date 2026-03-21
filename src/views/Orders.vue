@@ -11,7 +11,7 @@
     </div>
 
     <!-- Пусто -->
-    <div v-else-if="!loading && orders.length === 0" class="empty-state surface-card border-round shadow-1 p-6 text-center">
+    <div v-else-if="!loading && orders.length === 0" class="empty-state border-round shadow-1 p-6 text-center">
       <i class="pi pi-receipt mb-3" style="font-size: 3rem; color: var(--text-color-secondary);"></i>
       <p class="text-color-secondary m-0">У вас пока нет заказов</p>
     </div>
@@ -96,5 +96,7 @@ onMounted(() => fetchOrders(true));
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  background: #f5f7fa;
+  border: 1px solid #e8edf2;
 }
 </style>
