@@ -275,7 +275,7 @@ const userMenuItems = ref([
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.75rem;
   padding-right: 0.5rem;
 }
 
@@ -284,9 +284,12 @@ const userMenuItems = ref([
   cursor: pointer;
   display: flex;
   align-items: center;
-  font-size: 1.4rem;
   color: #374151;
   transition: color 0.15s;
+}
+
+.cart-btn .pi {
+  font-size: 1.3rem;
 }
 
 .cart-btn:hover {
