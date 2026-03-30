@@ -7,25 +7,27 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
 import AuthService from './services/AuthService';
+import { isLoggedIn } from './stores/auth';
 
 const route = useRoute();
 const router = useRouter();
-const isLoggedIn = ref(false); // Все еще используем для других целей, например, показа/скрытия элементов
-const authChecked = ref(false);
 
 const updateAuthStatus = async () => {
   try {
     await AuthService.getMe();
     isLoggedIn.value = true;
   } catch (error) {
-    isLoggedIn.value = false;
-  } finally {
-    authChecked.value = true;
+    // Сбрасываем только при явном 401 — токен невалиден.
+    // Сетевые ошибки / CORS / 5xx не должны разлогинивать пользователя.
+    if (error.response?.status === 401) {
+      isLoggedIn.value = false;
+      localStorage.removeItem('authToken');
+    }
   }
 };
 

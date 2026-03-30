@@ -41,10 +41,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
 import OrderCard from '@/components/OrderCard.vue';
 import OrderService from '@/services/OrderService';
+
+const router = useRouter();
 
 const orders = ref([]);
 const loading = ref(false);
@@ -70,6 +73,10 @@ const fetchOrders = async (reset = false) => {
 
     hasMore.value = page.value < (pagination.pages ?? 1) - 1;
   } catch (e) {
+    if (e.response?.status === 401) {
+      router.push('/login');
+      return;
+    }
     error.value = 'Не удалось загрузить заказы. Попробуйте позже.';
   } finally {
     loading.value = false;

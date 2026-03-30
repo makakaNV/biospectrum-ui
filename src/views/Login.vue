@@ -68,6 +68,7 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import AuthService from '@/services/AuthService';
+import { isLoggedIn } from '@/stores/auth';
 
 const router = useRouter();
 const email = ref('');
@@ -118,6 +119,7 @@ const login = async () => {
     const token = response.data?.payload?.token;
     if (token) {
       localStorage.setItem('authToken', token);
+      isLoggedIn.value = true;
     }
     loginSuccess.value = true;
     setTimeout(() => router.push('/'), 700);

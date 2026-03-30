@@ -73,11 +73,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Menu from 'primevue/menu';
 import AuthService from '@/services/AuthService';
 import { useCart } from '@/stores/cart';
+import { isLoggedIn } from '@/stores/auth';
 
 const { count } = useCart();
 const router = useRouter();
@@ -95,28 +96,40 @@ const toggleUserMenu = (event) => {
   userMenu.value.toggle(event);
 };
 
-const userMenuItems = ref([
-  {
-    label: 'Профиль',
-    icon: 'pi pi-fw pi-user',
-    command: () => router.push('/profile'),
-  },
-  { separator: true },
-  {
-    label: 'Выйти',
-    icon: 'pi pi-fw pi-sign-out',
-    command: async () => {
-      try {
-        await AuthService.logout();
-      } catch (error) {
-        console.error('Ошибка выхода из системы на сервере:', error);
-      } finally {
-        localStorage.removeItem('authToken');
-        router.push('/login');
-      }
+const userMenuItems = computed(() => {
+  if (!isLoggedIn.value) {
+    return [
+      {
+        label: 'Войти или создать аккаунт',
+        icon: 'pi pi-fw pi-sign-in',
+        command: () => router.push('/login'),
+      },
+    ];
+  }
+  return [
+    {
+      label: 'Профиль',
+      icon: 'pi pi-fw pi-user',
+      command: () => router.push('/profile'),
     },
-  },
-]);
+    { separator: true },
+    {
+      label: 'Выйти',
+      icon: 'pi pi-fw pi-sign-out',
+      command: async () => {
+        try {
+          await AuthService.logout();
+        } catch (error) {
+          console.error('Ошибка выхода из системы на сервере:', error);
+        } finally {
+          localStorage.removeItem('authToken');
+          isLoggedIn.value = false;
+          router.push('/login');
+        }
+      },
+    },
+  ];
+});
 </script>
 
 <style scoped>
