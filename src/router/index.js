@@ -15,6 +15,7 @@ import About from '../views/About.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Vacancies from '../views/Vacancies.vue'
 import AboutProject from '../views/AboutProject.vue'
+import Contacts from '../views/Contacts.vue'
 
 
 const routes = [
@@ -33,7 +34,8 @@ const routes = [
   { path: '/about', name: 'About', component: About },
   { path: '/terms', name: 'PrivacyPolicy', component: PrivacyPolicy },
   { path: '/vacancies', name: 'Vacancies', component: Vacancies },
-  { path: '/about-project', name: 'AboutProject', component: AboutProject }
+  { path: '/about-project', name: 'AboutProject', component: AboutProject },
+  { path: '/contacts', name: 'Contacts', component: Contacts }
 ]
 
 const router = createRouter({
