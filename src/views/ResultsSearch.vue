@@ -71,6 +71,10 @@ const search = async () => {
       query: { patientId: found.patientId }
     });
   } catch (e) {
+    if (e.response?.status === 401) {
+      router.push('/login');
+      return;
+    }
     error.value = 'Не удалось выполнить поиск. Попробуйте позже.';
   } finally {
     loading.value = false;

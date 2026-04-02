@@ -135,6 +135,7 @@
 
 <script setup>
 import { ref, computed, onMounted, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -143,6 +144,8 @@ import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import AnalysisService from '@/services/AnalysisService';
 import AnalysisCard from '@/components/AnalysisCard.vue';
+
+const router = useRouter();
 
 const ALL_TAB = { code: 'all', name: 'Все' };
 

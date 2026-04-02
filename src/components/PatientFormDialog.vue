@@ -191,11 +191,6 @@ function validate() {
     if (!emailRegex.test(form.value.email)) e.email = 'Некорректный email';
   }
 
-  if (form.value.phoneNumber) {
-    const phoneDigits = form.value.phoneNumber.replace(/\D/g, '');
-    if (phoneDigits.length !== 11) e.phoneNumber = 'Введите номер полностью';
-  }
-
   errors.value = e;
   return Object.keys(e).length === 0;
 }
@@ -238,7 +233,39 @@ async function submit() {
       emit('update:visible', false);
     }, 800);
   } catch (error) {
-    const msg = error.response?.data?.message || error.response?.data?.error;
+    const data = error.response?.data;
+
+    // Формат 1: { message: "Validation failed", payload: { phoneNumber: "Invalid phone number" } }
+    if (data?.message === 'Validation failed' && data?.payload && typeof data.payload === 'object') {
+      const fieldErrors = {};
+      const translations = {
+        phoneNumber: 'Некорректный номер телефона',
+        email:       'Некорректный email',
+        snils:       'Некорректный СНИЛС',
+        firstName:   'Некорректное имя',
+        lastName:    'Некорректная фамилия',
+        birthDate:   'Некорректная дата рождения',
+      };
+      for (const [field, msg] of Object.entries(data.payload)) {
+        fieldErrors[field] = translations[field] || msg;
+      }
+      errors.value = { ...errors.value, ...fieldErrors };
+      return;
+    }
+
+    // Формат 2: { message: "Patient with this email: x already exists" }
+    const msg = data?.message || '';
+    if (msg.includes('already exists')) {
+      const fieldErrors = {};
+      if (msg.toLowerCase().includes('email'))       fieldErrors.email = 'Пациент с таким email уже существует';
+      if (msg.toLowerCase().includes('snils'))       fieldErrors.snils = 'Пациент с таким СНИЛС уже существует';
+      if (msg.toLowerCase().includes('phonenumber')) fieldErrors.phoneNumber = 'Пациент с таким номером телефона уже существует';
+      if (Object.keys(fieldErrors).length > 0) {
+        errors.value = { ...errors.value, ...fieldErrors };
+        return;
+      }
+    }
+
     serverError.value = msg || 'Произошла ошибка. Попробуйте ещё раз.';
   } finally {
     isLoading.value = false;
