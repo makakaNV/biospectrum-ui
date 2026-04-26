@@ -30,6 +30,7 @@
         <a class="footer-link" @click="router.push('/contacts')">Контакты</a>
         <a class="footer-link" @click="router.push('/vacancies')">Вакансии</a>
         <a class="footer-link" @click="router.push('/about-project')">О проекте</a>
+        <a class="footer-link" href="https://admin.biospectrum.ru" target="_blank" rel="noopener">Сотрудникам</a>
       </div>
 
       <!-- Правовое -->
@@ -37,6 +38,7 @@
         <div class="footer-col-title">Правовое</div>
         <a class="footer-link" @click="router.push('/terms')">Пользовательское соглашение</a>
       </div>
+
 
     </div>
 

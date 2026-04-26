@@ -15,6 +15,10 @@ const AnalysisService = {
 
   searchAnalyses(body, { page = 0, limit = 20 }) {
     return apiClient.post('/analyses/search', body, { params: { page, limit } });
+  },
+
+  getAnalysesByIds(ids) {
+    return apiClient.post('/analyses/ids', ids);
   }
 };
 

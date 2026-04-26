@@ -70,10 +70,43 @@
           <div v-else class="text-color-secondary text-sm">Пациент не выбран</div>
         </div>
 
-        <!-- Выбранный офис -->
+        <!-- Офисы -->
         <div class="checkout-block border-round shadow-1 p-4">
-          <div class="font-bold text-lg mb-2">Выбранный офис</div>
-          <div class="text-color-secondary text-sm">Офис не выбран</div>
+          <div class="font-bold text-lg mb-1">Где пройти исследование</div>
+          <div class="text-color-secondary text-sm mb-3">Исследование можно пройти в любом из двух офисов</div>
+
+          <div class="offices-compact-grid">
+            <div class="office-compact-card">
+              <div class="office-compact-badge">Офис 1</div>
+              <div class="office-compact-address">ул. Дзержинского, 11</div>
+              <div class="office-compact-row">
+                <i class="pi pi-clock occ-icon"></i>
+                <span>8:00 – 20:00 · ежедневно</span>
+              </div>
+              <div class="office-compact-row">
+                <i class="pi pi-phone occ-icon"></i>
+                <a href="tel:+73466291346" class="occ-link">+7 (3466) 29‒13‒46</a>
+              </div>
+            </div>
+
+            <div class="office-compact-card">
+              <div class="office-compact-badge">Офис 2</div>
+              <div class="office-compact-address">ул. Мира, 3Б</div>
+              <div class="office-compact-row">
+                <i class="pi pi-clock occ-icon"></i>
+                <span>9:00 – 19:00 · ежедневно</span>
+              </div>
+              <div class="office-compact-row">
+                <i class="pi pi-phone occ-icon"></i>
+                <a href="tel:+73466291347" class="occ-link">+7 (3466) 29‒13‒47</a>
+              </div>
+            </div>
+          </div>
+
+          <button class="map-btn" @click="mapVisible = true">
+            <i class="pi pi-map"></i>
+            Посмотреть на карте
+          </button>
         </div>
 
       </div>
@@ -166,6 +199,78 @@
     </div>
 
   </div>
+
+  <!-- Диалог успешного заказа -->
+  <Dialog
+    v-model:visible="successVisible"
+    modal
+    :closable="true"
+    :style="{ width: '420px' }"
+    :breakpoints="{ '480px': '95vw' }"
+    :draggable="false"
+    @hide="router.push('/orders')"
+  >
+    <template #header>
+      <span></span>
+    </template>
+    <div class="success-dialog">
+      <div class="success-icon-wrap">
+        <i class="pi pi-check success-icon"></i>
+      </div>
+      <div class="success-order-id" v-if="confirmedOrderId">
+        Заказ <span class="success-id-num">#{{ confirmedOrderId }}</span> принят в обработку
+      </div>
+      <div class="success-order-id" v-else>
+        Заказ принят в обработку
+      </div>
+      <p class="success-hint">
+        Заказ появится на странице заказов после обработки — там можно следить за статусом и результатами.
+      </p>
+      <p class="success-office">
+        <i class="pi pi-map-marker success-office-icon"></i>
+        Ждём вас в любом из наших офисов для взятия биоматериала
+      </p>
+      <Button
+        label="Перейти к заказам"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        class="w-full success-btn"
+        @click="router.push('/orders')"
+      />
+    </div>
+  </Dialog>
+
+  <!-- Диалог с картой -->
+  <Dialog
+    v-model:visible="mapVisible"
+    header="Офисы на карте"
+    modal
+    :style="{ width: '680px' }"
+    :breakpoints="{ '768px': '95vw' }"
+    :draggable="false"
+  >
+    <div class="map-dialog-body">
+      <iframe
+        src="https://yandex.ru/map-widget/v1/?ll=76.5715%2C60.9440&z=13&l=map&pt=76.590298%2C60.941276%2Cpm2rdl1~76.552695%2C60.946629%2Cpm2rdl2"
+        width="100%"
+        height="400"
+        frameborder="0"
+        allowfullscreen
+        title="Офисы Биоспектрум на карте"
+      ></iframe>
+      <div class="map-dialog-offices">
+        <div class="map-dialog-office">
+          <span class="map-dialog-dot map-dialog-dot--1">1</span>
+          <span>ул. Дзержинского, 11 · 8:00–20:00</span>
+        </div>
+        <div class="map-dialog-office">
+          <span class="map-dialog-dot map-dialog-dot--2">2</span>
+          <span>ул. Мира, 3Б · 9:00–19:00</span>
+        </div>
+      </div>
+    </div>
+  </Dialog>
+
 </template>
 
 <script setup>
@@ -174,6 +279,7 @@ import { useRouter } from 'vue-router';
 import Button from 'primevue/button';
 import InputMask from 'primevue/inputmask';
 import Message from 'primevue/message';
+import Dialog from 'primevue/dialog';
 import { useCart } from '@/stores/cart';
 import OrderService from '@/services/OrderService';
 
@@ -184,6 +290,9 @@ const patient = ref(
   history.state?.patient ? JSON.parse(history.state.patient) : null
 );
 
+const mapVisible = ref(false);
+const successVisible = ref(false);
+const confirmedOrderId = ref(null);
 const paymentMethod = ref(null);
 const card = reactive({ number: '', expiry: '', cvv: '' });
 const cardErrors = reactive({ number: '', expiry: '', cvv: '' });
@@ -262,9 +371,12 @@ const submitOrder = async () => {
       comment: buildComment(analysesIds),
     };
 
-    await OrderService.createOrder(payload);
+    const response = await OrderService.createOrder(payload);
+    const message = response.data?.message || '';
+    const match = message.match(/Order with ID[:\s]+(\d+)/i);
+    confirmedOrderId.value = match ? match[1] : null;
     clearCart();
-    router.push('/orders');
+    successVisible.value = true;
   } catch (error) {
     const msg = error.response?.data?.message || error.response?.data?.error;
     orderError.value = msg || 'Ошибка при оформлении заказа. Попробуйте ещё раз.';
@@ -366,5 +478,205 @@ const formatDate = (val) => {
   border-radius: 8px;
   padding: 1rem;
   border: 1px solid #d8e0ea;
+}
+
+/* ── Success dialog ── */
+.success-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 0 0.25rem;
+  gap: 0;
+}
+
+.success-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.success-icon {
+  font-size: 1.75rem;
+  color: #16a34a;
+}
+
+.success-order-id {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.875rem;
+  line-height: 1.4;
+}
+
+.success-id-num {
+  color: #2563eb;
+}
+
+.success-hint {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0 0 0.875rem;
+  line-height: 1.55;
+}
+
+.success-office {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.875rem;
+  color: #475569;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
+  margin: 0 0 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  line-height: 1.45;
+}
+
+.success-office-icon {
+  color: #2563eb;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.success-btn {
+  margin-top: 0.25rem;
+}
+
+/* ── Compact offices in checkout ── */
+.offices-compact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.office-compact-card {
+  background: #ffffff;
+  border: 1px solid #dde4ee;
+  border-radius: 10px;
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.office-compact-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  width: fit-content;
+}
+
+.office-compact-address {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.office-compact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #475569;
+}
+
+.occ-icon {
+  font-size: 0.8rem;
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.occ-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+.occ-link:hover { text-decoration: underline; }
+
+.map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  color: #1d4ed8;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+.map-btn:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+/* ── Map dialog ── */
+.map-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.map-dialog-body iframe {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.map-dialog-offices {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 0.25rem 0;
+}
+
+.map-dialog-office {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #475569;
+}
+
+.map-dialog-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.map-dialog-dot--1 {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.map-dialog-dot--2 {
+  background: #fef3c7;
+  color: #d97706;
 }
 </style>
