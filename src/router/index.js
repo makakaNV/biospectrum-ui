@@ -16,6 +16,9 @@ import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Vacancies from '../views/Vacancies.vue'
 import AboutProject from '../views/AboutProject.vue'
 import Contacts from '../views/Contacts.vue'
+import RegisterConfirm from '../views/RegisterConfirm.vue'
+import EmailConfirmed from '../views/EmailConfirmed.vue'
+import TokenDeclined from '../views/TokenDeclined.vue'
 
 
 const routes = [
@@ -35,7 +38,10 @@ const routes = [
   { path: '/terms', name: 'PrivacyPolicy', component: PrivacyPolicy },
   { path: '/vacancies', name: 'Vacancies', component: Vacancies },
   { path: '/about-project', name: 'AboutProject', component: AboutProject },
-  { path: '/contacts', name: 'Contacts', component: Contacts }
+  { path: '/contacts', name: 'Contacts', component: Contacts },
+  { path: '/register-confirm', name: 'RegisterConfirm', component: RegisterConfirm },
+  { path: '/email-confirmed', name: 'EmailConfirmed', component: EmailConfirmed },
+  { path: '/token-declined', name: 'TokenDeclined', component: TokenDeclined },
 ]
 
 const router = createRouter({

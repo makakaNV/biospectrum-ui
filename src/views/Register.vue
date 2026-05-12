@@ -218,7 +218,7 @@ const register = async () => {
       confirmPassword: form.confirmPassword
     });
     registerSuccess.value = true;
-    setTimeout(() => router.push('/login'), 900);
+    setTimeout(() => router.push({ path: '/register-confirm', query: { email: form.email } }), 900);
   } catch (error) {
     serverError.value = parseServerError(error);
   } finally {
