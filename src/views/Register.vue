@@ -16,6 +16,7 @@
             class="field-input"
             :class="{ 'field-input--error': errors.username, 'field-input--valid': form.username && !errors.username }"
             placeholder="username"
+            autocomplete="nickname"
             @blur="validateUsername"
           />
           <span v-if="errors.username" class="field-error">{{ errors.username }}</span>
@@ -29,6 +30,7 @@
             class="field-input"
             :class="{ 'field-input--error': errors.email, 'field-input--valid': form.email && !errors.email }"
             placeholder="you@example.com"
+            autocomplete="username"
             @blur="validateEmail"
           />
           <span v-if="errors.email" class="field-error">{{ errors.email }}</span>
@@ -43,6 +45,7 @@
               class="field-input"
               :class="{ 'field-input--error': errors.password, 'field-input--valid': form.password && !errors.password }"
               placeholder="Минимум 8 символов"
+              autocomplete="new-password"
               @blur="validatePassword"
               @input="validateConfirmIfTouched"
             />
@@ -69,6 +72,7 @@
               class="field-input"
               :class="{ 'field-input--error': errors.confirmPassword, 'field-input--valid': form.confirmPassword && !errors.confirmPassword }"
               placeholder="Повторите пароль"
+              autocomplete="new-password"
               @blur="validateConfirm"
             />
             <button type="button" class="password-toggle" @click="showConfirm = !showConfirm">
