@@ -3,19 +3,30 @@
     <div class="auth-card">
       <div class="declined-header">
         <div class="declined-icon-wrap">
-          <i class="pi pi-times"></i>
+          <i class="pi pi-question-circle"></i>
         </div>
-        <h1 class="auth-title">Ссылка устарела</h1>
+        <h1 class="auth-title">Ссылка недействительна</h1>
       </div>
 
       <div class="declined-body">
         <p class="declined-hint">
-          Ссылка для подтверждения email действительна ограниченное время.
-          Пройдите регистрацию заново.
+          Возможно, аккаунт уже был подтверждён ранее
+          или срок действия ссылки истёк.
         </p>
-        <button class="register-btn" @click="router.push('/register')">
-          Зарегистрироваться заново
-        </button>
+
+        <ul class="scenarios">
+          <li>Войдите в аккаунт, если уже подтверждали email.</li>
+          <li>Зарегистрируйтесь заново, если нет.</li>
+        </ul>
+
+        <div class="action-btns">
+          <button class="btn-primary" @click="router.push('/login')">
+            Войти
+          </button>
+          <button class="btn-secondary" @click="router.push('/register')">
+            Зарегистрироваться заново
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -53,7 +64,7 @@ const router = useRouter();
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
 .declined-icon-wrap {
@@ -76,14 +87,11 @@ const router = useRouter();
   margin: 0;
 }
 
-
 .declined-body {
   padding: 1.75rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  align-items: center;
-  text-align: center;
 }
 
 .declined-hint {
@@ -91,9 +99,28 @@ const router = useRouter();
   color: #64748b;
   line-height: 1.6;
   margin: 0;
+  text-align: center;
 }
 
-.register-btn {
+.scenarios {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.9375rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-top: 0.25rem;
+}
+
+.btn-primary {
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
@@ -107,7 +134,26 @@ const router = useRouter();
   transition: background 0.2s;
 }
 
-.register-btn:hover {
+.btn-primary:hover {
   background: #1d4ed8;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #ffffff;
+  color: #475569;
+  font-family: inherit;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: #94a3b8;
+  color: #1e293b;
 }
 </style>
