@@ -59,6 +59,10 @@
           <span>Нет аккаунта?</span>
           <router-link to="/register" class="auth-link">Зарегистрироваться</router-link>
         </div>
+
+        <div class="auth-footer">
+          <router-link to="/password-recovery" class="auth-link">Забыли пароль?</router-link>
+        </div>
       </div>
     </div>
   </div>

@@ -36,6 +36,19 @@
             <span class="info-value">{{ formatDate(user.created) }}</span>
           </div>
         </div>
+
+        <div class="password-row">
+          <div class="password-row-left">
+            <span class="info-label"><i class="pi pi-lock mr-2"></i>Пароль</span>
+            <span v-if="passwordEmailSent" class="sent-hint">
+              <i class="pi pi-check-circle"></i> Письмо отправлено на {{ user.email }}
+            </span>
+          </div>
+          <button class="change-password-btn" :disabled="passwordLoading || passwordEmailSent" @click="sendPasswordReset">
+            <i v-if="passwordLoading" class="pi pi-spinner pi-spin"></i>
+            <span>{{ passwordEmailSent ? 'Письмо отправлено' : 'Сменить пароль' }}</span>
+          </button>
+        </div>
       </div>
 
       <!-- Быстрые переходы -->
@@ -76,11 +89,24 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import Message from 'primevue/message';
 import UserService from '@/services/UserService';
+import AuthService from '@/services/AuthService';
 
 const router = useRouter();
 const user = ref(null);
 const loading = ref(true);
 const error = ref('');
+const passwordLoading = ref(false);
+const passwordEmailSent = ref(false);
+
+const sendPasswordReset = async () => {
+  passwordLoading.value = true;
+  try {
+    await AuthService.requestPasswordReset(user.value.email);
+    passwordEmailSent.value = true;
+  } finally {
+    passwordLoading.value = false;
+  }
+};
 
 const formatDate = (ts) => {
   if (!ts) return '—';
@@ -147,6 +173,57 @@ onMounted(async () => {
 .quick-link:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   transform: translateY(-1px);
+}
+
+.password-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.875rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.password-row-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sent-hint {
+  font-size: 0.8rem;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.change-password-btn {
+  flex-shrink: 0;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #ffffff;
+  color: #374151;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.change-password-btn:hover:not(:disabled) {
+  border-color: #3b82f6;
+  color: #2563eb;
+}
+
+.change-password-btn:disabled {
+  cursor: default;
+  opacity: 0.7;
 }
 
 .quick-icon {

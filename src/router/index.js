@@ -19,6 +19,8 @@ import Contacts from '../views/Contacts.vue'
 import RegisterConfirm from '../views/RegisterConfirm.vue'
 import EmailConfirmed from '../views/EmailConfirmed.vue'
 import TokenDeclined from '../views/TokenDeclined.vue'
+import PasswordRecovery from '../views/PasswordRecovery.vue'
+import ResetPassword from '../views/ResetPassword.vue'
 
 
 const routes = [
@@ -42,6 +44,8 @@ const routes = [
   { path: '/register-confirm', name: 'RegisterConfirm', component: RegisterConfirm },
   { path: '/email-confirmed', name: 'EmailConfirmed', component: EmailConfirmed },
   { path: '/token-declined', name: 'TokenDeclined', component: TokenDeclined },
+  { path: '/password-recovery', name: 'PasswordRecovery', component: PasswordRecovery },
+  { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
 ]
 
 const router = createRouter({

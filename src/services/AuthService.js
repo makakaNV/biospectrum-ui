@@ -19,7 +19,14 @@ export default {
   },
 
   logout() {
-    // Предполагаем, что этот эндпоинт очищает HttpOnly cookie на сервере.
     return apiClient.post('/auth/logout');
+  },
+
+  requestPasswordReset(email) {
+    return apiClient.post('/auth/reset-password/request', null, { params: { email } });
+  },
+
+  confirmPasswordReset(dto) {
+    return apiClient.post('/auth/reset-password/confirm', dto);
   }
 };
