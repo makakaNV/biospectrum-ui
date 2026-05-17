@@ -3,7 +3,7 @@
     :visible="visible"
     @update:visible="$emit('update:visible', $event)"
     :header="isEdit ? 'Редактировать пациента' : 'Новый пациент'"
-    :style="{ width: '460px' }"
+    :style="{ width: '480px' }"
     modal
     :draggable="false"
     :closable="!isLoading"
@@ -75,6 +75,58 @@
         <small class="p-error" v-if="errors.email">{{ errors.email }}</small>
       </div>
 
+      <!-- Клинический профиль -->
+      <div class="clinical-divider">
+        <span>Клинический профиль</span>
+      </div>
+      <p class="clinical-hint">Заполните клинический профиль, чтобы получить точные результаты</p>
+
+      <div class="flex flex-column gap-3">
+
+        <div class="clinical-row">
+          <span class="clinical-label">Курение</span>
+          <SelectButton
+            v-model="form.clinicalProfile.isSmoker"
+            :options="boolOptions"
+            optionLabel="label"
+            optionValue="value"
+          />
+        </div>
+
+        <div class="clinical-row">
+          <span class="clinical-label">Алкоголь</span>
+          <SelectButton
+            v-model="form.clinicalProfile.isAlcoholic"
+            :options="boolOptions"
+            optionLabel="label"
+            optionValue="value"
+          />
+        </div>
+
+        <template v-if="form.gender === 'FEMALE'">
+          <div class="clinical-row">
+            <span class="clinical-label">Беременность</span>
+            <SelectButton
+              v-model="form.clinicalProfile.isPregnant"
+              :options="boolOptions"
+              optionLabel="label"
+              optionValue="value"
+            />
+          </div>
+
+          <div v-if="form.clinicalProfile.isPregnant" class="clinical-row">
+            <span class="clinical-label">Триместр</span>
+            <SelectButton
+              v-model="form.clinicalProfile.trimester"
+              :options="trimesterOptions"
+              optionLabel="label"
+              optionValue="value"
+            />
+          </div>
+        </template>
+
+      </div>
+
       <Message v-if="serverError" severity="error" :closable="false" class="mt-1">{{ serverError }}</Message>
       <Message v-if="successMessage" severity="success" :closable="false" class="mt-1">{{ successMessage }}</Message>
 
@@ -99,6 +151,7 @@ import InputText from 'primevue/inputtext';
 import InputMask from 'primevue/inputmask';
 import DatePicker from 'primevue/datepicker';
 import Select from 'primevue/select';
+import SelectButton from 'primevue/selectbutton';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
 import PatientService from '@/services/PatientService';
@@ -120,6 +173,24 @@ const genderOptions = [
   { label: 'Женский', value: 'FEMALE' }
 ];
 
+const boolOptions = [
+  { label: '+', value: true },
+  { label: '−', value: false }
+];
+
+const trimesterOptions = [
+  { label: 'I', value: 1 },
+  { label: 'II', value: 2 },
+  { label: 'III', value: 3 }
+];
+
+const emptyClinicalProfile = () => ({
+  isSmoker: false,
+  isAlcoholic: false,
+  isPregnant: false,
+  trimester: null
+});
+
 const emptyForm = () => ({
   lastName: '',
   firstName: '',
@@ -128,7 +199,8 @@ const emptyForm = () => ({
   gender: null,
   snils: '',
   phoneNumber: '',
-  email: ''
+  email: '',
+  clinicalProfile: emptyClinicalProfile()
 });
 
 const form = ref(emptyForm());
@@ -140,6 +212,7 @@ watch(() => props.visible, (val) => {
     successMessage.value = '';
     errors.value = {};
     if (props.patient) {
+      const cp = props.patient.clinicalProfile;
       form.value = {
         lastName: props.patient.lastName || '',
         firstName: props.patient.firstName || '',
@@ -148,7 +221,13 @@ watch(() => props.visible, (val) => {
         gender: props.patient.gender || null,
         snils: formatSnils(props.patient.snils || ''),
         phoneNumber: props.patient.phoneNumber || '',
-        email: props.patient.email || ''
+        email: props.patient.email || '',
+        clinicalProfile: {
+          isSmoker: cp?.isSmoker ?? false,
+          isAlcoholic: cp?.isAlcoholic ?? false,
+          isPregnant: cp?.isPregnant ?? false,
+          trimester: cp?.trimester ?? null
+        }
       };
     } else {
       form.value = emptyForm();
@@ -156,9 +235,21 @@ watch(() => props.visible, (val) => {
   }
 });
 
+// Сброс беременности при смене пола на мужской
+watch(() => form.value.gender, (val) => {
+  if (val === 'MALE') {
+    form.value.clinicalProfile.isPregnant = false;
+    form.value.clinicalProfile.trimester = null;
+  }
+});
+
+// Сброс триместра при снятии беременности
+watch(() => form.value.clinicalProfile.isPregnant, (val) => {
+  if (!val) form.value.clinicalProfile.trimester = null;
+});
+
 function parseBirthDate(value) {
   if (!value) return null;
-  // Поддерживаем как "YYYY-MM-DD", так и timestamp (число)
   if (typeof value === 'string') {
     const [y, m, d] = value.split('-').map(Number);
     return new Date(y, m - 1, d);
@@ -209,6 +300,16 @@ async function submit() {
   successMessage.value = '';
   isLoading.value = true;
 
+  const cp = form.value.clinicalProfile;
+  const clinicalProfile = {
+    isSmoker: cp.isSmoker,
+    isAlcoholic: cp.isAlcoholic,
+    isPregnant: form.value.gender === 'FEMALE' ? cp.isPregnant : false,
+    ...(form.value.gender === 'FEMALE' && cp.isPregnant && cp.trimester != null
+      ? { trimester: cp.trimester }
+      : {})
+  };
+
   const payload = {
     lastName: form.value.lastName.trim(),
     firstName: form.value.firstName.trim(),
@@ -217,7 +318,8 @@ async function submit() {
     gender: form.value.gender,
     snils: (form.value.snils || '').replace(/\D/g, ''),
     phoneNumber: form.value.phoneNumber || undefined,
-    email: form.value.email?.trim() || undefined
+    email: form.value.email?.trim() || undefined,
+    clinicalProfile
   };
 
   try {
@@ -235,7 +337,6 @@ async function submit() {
   } catch (error) {
     const data = error.response?.data;
 
-    // Формат 1: { message: "Validation failed", payload: { phoneNumber: "Invalid phone number" } }
     if (data?.message === 'Validation failed' && data?.payload && typeof data.payload === 'object') {
       const fieldErrors = {};
       const translations = {
@@ -253,7 +354,6 @@ async function submit() {
       return;
     }
 
-    // Формат 2: { message: "Patient with this email: x already exists" }
     const msg = data?.message || '';
     if (msg.includes('already exists')) {
       const fieldErrors = {};
@@ -272,3 +372,49 @@ async function submit() {
   }
 }
 </script>
+
+<style scoped>
+.clinical-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.clinical-divider::before,
+.clinical-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.clinical-divider span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.clinical-hint {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: -0.5rem 0 0;
+  text-align: center;
+}
+
+.clinical-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.clinical-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+</style>

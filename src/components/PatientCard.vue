@@ -1,34 +1,26 @@
 <template>
-  <div class="patient-card p-3 border-round shadow-1 flex flex-column">
+  <div class="patient-card p-3 border-round shadow-1 flex flex-column" @click="router.push('/patients/' + patient.id)">
 
     <!-- Шапка: иконка пола, имя, кнопки -->
-    <div class="flex align-items-center mb-3">
+    <div class="flex align-items-center">
       <div class="gender-icon-wrap mr-3" :style="{ background: genderBg }">
         <i :class="genderIcon" :style="{ color: genderColor }"></i>
       </div>
       <div class="flex-grow-1 overflow-hidden">
         <div class="text-xs text-color-secondary">ID: {{ patient.id }}</div>
         <div class="font-bold text-base white-space-nowrap overflow-hidden text-overflow-ellipsis">
-          {{ patient.lastName }} {{ patient.firstName }} {{ patient.middleName }}
+          {{ patient.lastName }} {{ patient.firstName }}
         </div>
+        <div class="text-xs text-color-secondary mt-1">{{ formattedBirthDate }}</div>
       </div>
-      <div class="flex gap-1 ml-2">
+      <div class="flex gap-1 ml-2" @click.stop>
         <Button icon="pi pi-pencil" text rounded aria-label="Изменить" @click="emit('edit', patient)" />
         <Button icon="pi pi-trash" text rounded severity="danger" aria-label="Удалить" @click="confirmVisible = true" />
       </div>
     </div>
 
-    <!-- Данные -->
-    <div class="text-sm flex flex-column gap-1 flex-grow-1">
-      <div><span class="text-color-secondary">Дата рождения:</span> {{ formattedBirthDate }}</div>
-      <div><span class="text-color-secondary">Пол:</span> {{ formattedGender }}</div>
-      <div v-if="patient.phoneNumber"><span class="text-color-secondary">Телефон:</span> {{ patient.phoneNumber }}</div>
-      <div v-if="patient.snils"><span class="text-color-secondary">СНИЛС:</span> {{ patient.snils }}</div>
-      <div v-if="patient.email"><span class="text-color-secondary">Email:</span> {{ patient.email }}</div>
-    </div>
-
     <!-- Кнопка анализов -->
-    <div class="mt-3 pt-3 border-top-1 surface-border">
+    <div class="mt-3 pt-3 border-top-1 surface-border" @click.stop>
       <Button
         label="Анализы"
         icon="pi pi-chart-bar"
@@ -50,21 +42,21 @@
     :draggable="false"
   >
     <div class="flex align-items-center gap-3">
-      <i class="pi pi-exclamation-triangle text-3xl text-red-500"></i>
       <span>
         Удалить пациента <strong>{{ patient.lastName }} {{ patient.firstName }}</strong>?
-        Это действие нельзя отменить.
+        Действие нельзя отменить.
       </span>
     </div>
     <template #footer>
       <Button label="Отмена" text severity="secondary" @click="confirmVisible = false" :disabled="isDeleting" />
-      <Button label="Удалить" severity="danger" icon="pi pi-trash" @click="deletePatient" :loading="isDeleting" />
+      <Button label="Удалить" severity="danger" @click="deletePatient" :loading="isDeleting" />
     </template>
   </Dialog>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import PatientService from '@/services/PatientService';
@@ -74,6 +66,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['edit', 'deleted', 'analyzes']);
+const router = useRouter();
 
 const confirmVisible = ref(false);
 const isDeleting = ref(false);
@@ -81,11 +74,9 @@ const isDeleting = ref(false);
 const genderIcon = computed(() =>
   props.patient.gender === 'MALE' ? 'pi pi-mars' : 'pi pi-venus'
 );
-
 const genderColor = computed(() =>
   props.patient.gender === 'MALE' ? 'var(--blue-500)' : 'var(--pink-500)'
 );
-
 const genderBg = computed(() =>
   props.patient.gender === 'MALE' ? 'var(--blue-50)' : 'var(--pink-50)'
 );
@@ -125,6 +116,13 @@ async function deletePatient() {
   box-sizing: border-box;
   background: #f0f5fb;
   border: 1px solid #dce8f4;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.patient-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .gender-icon-wrap {

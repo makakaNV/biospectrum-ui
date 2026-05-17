@@ -161,7 +161,7 @@ const banners = ref([
     title: 'Посетите наш новый офис',
     sub: 'Современное оснащение, комфортная зона ожидания и удобная парковка - мы открылись по новому адресу в центре города',
     btn: 'Узнать адрес',
-    link: '/about',
+    link: '/contacts',
     image: '/images/banners/new_office_banner.png',
     overlay: 'linear-gradient(to right, rgba(10,20,40,0.72) 0%, rgba(10,20,40,0.45) 55%, rgba(10,20,40,0.1) 100%)',
   },

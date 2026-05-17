@@ -6,8 +6,11 @@
       <div v-for="patient in patients" :key="patient.id" class="col">
         <PatientCard :patient="patient" @edit="openEditDialog" @deleted="onPatientDeleted" />
       </div>
-      <div class="col flex align-items-center justify-content-center">
-        <Button label="Добавить нового пациента" icon="pi pi-plus" outlined @click="openCreateDialog" class="w-full h-full" />
+      <div class="col">
+        <div class="add-card" @click="openCreateDialog">
+          <i class="pi pi-plus add-card-icon"></i>
+          <span>Добавить нового пациента</span>
+        </div>
       </div>
     </div>
 
@@ -113,5 +116,35 @@ onMounted(() => {
 }
 .col {
   display: flex;
+}
+
+.add-card {
+  width: 100%;
+  max-width: 350px;
+  min-height: 100px;
+  box-sizing: border-box;
+  background: #f0f5fb;
+  border: 1px solid #dce8f4;
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: box-shadow 0.15s, transform 0.15s;
+  padding: 1rem;
+}
+
+.add-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.add-card-icon {
+  font-size: 1.4rem;
 }
 </style>

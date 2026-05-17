@@ -135,7 +135,7 @@
 
 <script setup>
 import { ref, computed, onMounted, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -146,6 +146,7 @@ import AnalysisService from '@/services/AnalysisService';
 import AnalysisCard from '@/components/AnalysisCard.vue';
 
 const router = useRouter();
+const route = useRoute();
 
 const ALL_TAB = { code: 'all', name: 'Все' };
 
@@ -265,6 +266,10 @@ const loadCategories = async () => {
 
 onMounted(async () => {
   await loadCategories();
+  const categoryParam = route.query.category;
+  if (categoryParam && tabs.value.some(t => t.code === categoryParam)) {
+    selectedTab.value = categoryParam;
+  }
   fetchAnalyses();
 });
 </script>
