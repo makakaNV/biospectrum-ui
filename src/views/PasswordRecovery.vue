@@ -12,6 +12,7 @@
         </div>
         <div class="auth-body">
           <p class="body-text">
+            Письмо отправлено на <strong class="sent-email">{{ email }}</strong>.
             Перейдите по ссылке в письме, чтобы сбросить пароль.
             Проверьте папку «Спам», если письмо не пришло.
           </p>
@@ -280,4 +281,9 @@ const submit = async () => {
 }
 
 .back-link:hover { text-decoration: underline; }
+
+.sent-email {
+  color: #1e293b;
+  font-weight: 700;
+}
 </style>
