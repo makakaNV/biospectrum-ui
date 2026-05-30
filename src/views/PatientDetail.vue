@@ -15,15 +15,10 @@
 
       <!-- Шапка -->
       <div class="detail-hero border-round shadow-1 p-4 mb-3 flex align-items-center justify-content-between gap-3">
-        <div class="flex align-items-center gap-3">
-          <div class="gender-icon-wrap" :style="{ background: genderBg, color: genderColor }">
-            <i :class="genderIcon" style="font-size: 1.4rem;"></i>
-          </div>
-          <div>
-            <div class="text-xs text-color-secondary mb-1">ID: {{ patient.id }}</div>
-            <div class="text-xl font-bold">
-              {{ [patient.lastName, patient.firstName, patient.middleName].filter(Boolean).join(' ') }}
-            </div>
+        <div>
+          <div class="text-xs text-color-secondary mb-1">ID: {{ patient.id }}</div>
+          <div class="text-xl font-bold">
+            {{ [patient.lastName, patient.firstName, patient.middleName].filter(Boolean).join(' ') }}
           </div>
         </div>
         <div class="flex gap-2">

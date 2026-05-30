@@ -349,6 +349,9 @@ const buildAnalysesIds = () => {
   return Array.from(ids);
 };
 
+const buildPanelsIds = () =>
+  items.filter(item => item.type === 'panel').map(item => item.id);
+
 const buildComment = (analysesIds) => {
   const snils = patient.value?.snils || '';
   const names = items
@@ -365,9 +368,11 @@ const submitOrder = async () => {
   orderError.value = '';
   try {
     const analysesIds = buildAnalysesIds();
+    const panelsIds = buildPanelsIds();
     const payload = {
       patientId: patient.value.id,
       analysesIds,
+      ...(panelsIds.length ? { panelsIds } : {}),
       comment: buildComment(analysesIds),
     };
 

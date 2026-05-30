@@ -9,6 +9,10 @@ const OrderService = {
     return apiClient.get('/orders/my', { params: { page, limit } });
   },
 
+  getOrdersByPatient(patientId, { page = 0, limit = 15 }) {
+    return apiClient.get(`/orders/patient/${patientId}`, { params: { page, limit } });
+  },
+
   getTestResults(orderId) {
     return apiClient.get(`/tests/results/order/${orderId}`);
   }

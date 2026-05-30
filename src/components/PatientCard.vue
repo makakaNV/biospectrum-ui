@@ -1,34 +1,20 @@
 <template>
-  <div class="patient-card p-3 border-round shadow-1 flex flex-column" @click="router.push('/patients/' + patient.id)">
+  <div class="patient-card p-3 border-round shadow-1" @click="router.push('/patients/' + patient.id)">
 
-    <!-- Шапка: иконка пола, имя, кнопки -->
-    <div class="flex align-items-center">
-      <div class="gender-icon-wrap mr-3" :style="{ background: genderBg }">
+    <div class="flex align-items-center gap-2">
+      <div class="gender-icon-wrap" :style="{ background: genderBg }">
         <i :class="genderIcon" :style="{ color: genderColor }"></i>
       </div>
       <div class="flex-grow-1 overflow-hidden">
-        <div class="text-xs text-color-secondary">ID: {{ patient.id }}</div>
-        <div class="font-bold text-base white-space-nowrap overflow-hidden text-overflow-ellipsis">
-          {{ patient.lastName }} {{ patient.firstName }}
-        </div>
-        <div class="text-xs text-color-secondary mt-1">{{ formattedBirthDate }}</div>
+        <div class="card-id">ID: {{ patient.id }}</div>
+        <div class="card-name">{{ patient.lastName }} {{ patient.firstName }}</div>
+        <div class="card-date">{{ formattedBirthDate }}</div>
       </div>
-      <div class="flex gap-1 ml-2" @click.stop>
-        <Button icon="pi pi-pencil" text rounded aria-label="Изменить" @click="emit('edit', patient)" />
-        <Button icon="pi pi-trash" text rounded severity="danger" aria-label="Удалить" @click="confirmVisible = true" />
+      <div class="flex flex-column gap-1" @click.stop>
+        <Button icon="pi pi-receipt" text rounded size="small" aria-label="Заказы" @click="goToOrders" />
+        <Button icon="pi pi-pencil" text rounded size="small" aria-label="Изменить" @click="emit('edit', patient)" />
+        <Button icon="pi pi-trash" text rounded size="small" severity="danger" aria-label="Удалить" @click="confirmVisible = true" />
       </div>
-    </div>
-
-    <!-- Кнопка анализов -->
-    <div class="mt-3 pt-3 border-top-1 surface-border" @click.stop>
-      <Button
-        label="Анализы"
-        icon="pi pi-chart-bar"
-        outlined
-        size="small"
-        class="w-full"
-        @click="emit('analyzes', patient)"
-      />
     </div>
 
   </div>
@@ -65,7 +51,7 @@ const props = defineProps({
   patient: { type: Object, required: true }
 });
 
-const emit = defineEmits(['edit', 'deleted', 'analyzes']);
+const emit = defineEmits(['edit', 'deleted']);
 const router = useRouter();
 
 const confirmVisible = ref(false);
@@ -91,9 +77,9 @@ const formattedBirthDate = computed(() => {
   return new Date(val).toLocaleDateString('ru-RU');
 });
 
-const formattedGender = computed(() =>
-  props.patient.gender === 'MALE' ? 'Мужской' : 'Женский'
-);
+const goToOrders = () => {
+  router.push({ path: '/orders', query: { patientId: props.patient.id } });
+};
 
 async function deletePatient() {
   isDeleting.value = true;
@@ -117,12 +103,34 @@ async function deletePatient() {
   background: #f0f5fb;
   border: 1px solid #dce8f4;
   cursor: pointer;
-  transition: box-shadow 0.15s, transform 0.15s;
+  transition: box-shadow 0.15s, transform 0.15s, background 0.15s;
 }
 
 .patient-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  background: #e8f0fb;
+}
+
+.card-id {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+.card-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #0f172a;
+  margin-top: 0.1rem;
+}
+
+.card-date {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-top: 0.25rem;
 }
 
 .gender-icon-wrap {

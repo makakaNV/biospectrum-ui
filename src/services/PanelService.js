@@ -11,6 +11,10 @@ const PanelService = {
 
   getGroups({ page = 0, limit = 100 }) {
     return apiClient.get('/panels-group/all', { params: { page, limit } });
+  },
+
+  getPanelsByIds(ids) {
+    return apiClient.post('/panels/ids', ids);
   }
 };
 
