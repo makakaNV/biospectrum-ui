@@ -13,9 +13,13 @@
         <div class="header-layout">
           <Button icon="pi pi-arrow-left" text size="small" @click="$router.back()" class="header-back" />
           <div class="header-center">
-            <h1 class="m-0 text-2xl font-bold">Результаты заказа #{{ orderId }}</h1>
-            <div class="flex align-items-center gap-4 mt-2 text-color-secondary text-sm flex-wrap">
-              <span v-if="patient">
+            <h1 class="m-0 font-bold" style="font-size: 1.5rem;">Результаты заказа #{{ orderId }}</h1>
+            <div class="flex align-items-center justify-content-center gap-4 mt-2 text-color-secondary text-sm flex-wrap">
+              <span v-if="patientError" class="patient-not-found">
+                <i class="pi pi-user mr-1"></i>— — —
+                <span class="patient-not-found-label ml-1">Пациент не найден</span>
+              </span>
+              <span v-else-if="patient">
                 <i class="pi pi-user mr-1"></i>
                 {{ patientFullName }}
               </span>
@@ -25,15 +29,18 @@
               </span>
             </div>
           </div>
-          <Button icon="pi pi-file-pdf" label="PDF" size="small" outlined @click="exportPdf" class="header-pdf" />
         </div>
       </div>
 
-      <!-- Ошибка -->
-      <Message v-if="error" severity="error" :closable="false" class="mb-3">{{ error }}</Message>
+      <!-- Результаты недоступны -->
+      <div v-if="resultsError" class="results-unavailable border-round shadow-1 p-6 text-center mb-3">
+        <i class="pi pi-exclamation-triangle mb-3" style="font-size: 2.5rem; color: #b45309;"></i>
+        <p class="m-0" style="color: #b45309; font-weight: 600;">Результаты недоступны</p>
+        <p class="text-color-secondary text-sm mt-1 m-0">Не удалось получить данные с сервера. Попробуйте позже.</p>
+      </div>
 
       <!-- Пусто -->
-      <div v-if="!error && results.length === 0" class="empty-results border-round shadow-1 p-6 text-center">
+      <div v-else-if="results.length === 0" class="empty-results border-round shadow-1 p-6 text-center">
         <i class="pi pi-inbox mb-3" style="font-size: 2.5rem; color: var(--text-color-secondary);"></i>
         <p class="text-color-secondary m-0">Результаты пока не готовы</p>
       </div>
@@ -107,6 +114,13 @@
 
           </div>
         </div>
+
+        <!-- Нижняя карточка с дисклеймером -->
+        <div class="footer-card results-header border-round shadow-1 mt-1" style="padding: 0.6rem 1rem;">
+          <p class="footer-line m-0 text-center">
+            * Результаты исследования не являются диагнозом, необходима консультация специалиста.
+          </p>
+        </div>
       </div>
 
     </template>
@@ -117,7 +131,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Button from 'primevue/button';
-import Message from 'primevue/message';
 import OrderService from '@/services/OrderService';
 import PatientService from '@/services/PatientService';
 
@@ -127,7 +140,8 @@ const orderId = route.params.id;
 const patientId = route.query.patientId;
 
 const loading = ref(true);
-const error = ref('');
+const patientError  = ref(false);
+const resultsError  = ref(false);
 const results = ref([]);
 const patient = ref(null);
 
@@ -199,22 +213,19 @@ const statusStyle = (s) => {
   return cfg ? { color: cfg.color } : {};
 };
 
-const exportPdf = () => window.print();
-
 onMounted(async () => {
-  try {
-    const [resultsRes, patientRes] = await Promise.all([
-      OrderService.getTestResults(orderId),
-      patientId ? PatientService.getPatientById(patientId) : Promise.resolve(null),
-    ]);
+  const [resultsResult, patientResult] = await Promise.allSettled([
+    OrderService.getTestResults(orderId),
+    patientId ? PatientService.getPatientById(patientId) : Promise.resolve(null),
+  ]);
 
-    results.value = resultsRes.data?.payload ?? [];
-    patient.value = patientRes?.data?.payload ?? null;
-  } catch {
-    error.value = 'Не удалось загрузить результаты.';
-  } finally {
-    loading.value = false;
-  }
+  resultsError.value = resultsResult.status === 'rejected';
+  patientError.value = patientResult.status === 'rejected';
+
+  results.value = resultsError.value  ? [] : (resultsResult.value?.data?.payload ?? []);
+  patient.value = patientError.value  ? null : (patientResult.value?.data?.payload ?? null);
+
+  loading.value = false;
 });
 </script>
 
@@ -226,9 +237,24 @@ onMounted(async () => {
 }
 
 .results-header,
-.empty-results {
+.empty-results,
+.results-unavailable {
   background: #f5f7fa;
   border: 1px solid #e8edf2;
+}
+
+.results-unavailable {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.patient-not-found {
+  color: #b45309;
+}
+
+.patient-not-found-label {
+  font-size: 0.75rem;
+  font-style: italic;
 }
 
 .result-card {
@@ -237,19 +263,39 @@ onMounted(async () => {
   border: 1px solid #e8edf2;
 }
 
+.results-header {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .header-layout {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: center;
 }
 
 .header-center {
-  flex: 1;
+  text-align: center;
 }
 
-.header-back,
-.header-pdf {
-  flex-shrink: 0;
+.header-back {
+  position: absolute;
+  left: 0;
+}
+
+.footer-card {
+  max-width: none;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.footer-line {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 /* Левая панель */

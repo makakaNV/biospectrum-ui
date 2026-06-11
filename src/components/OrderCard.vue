@@ -52,7 +52,10 @@
               <!-- Пациент -->
               <div class="detail-section">
                 <div class="detail-section-title">Исследование для:</div>
-                <div v-if="patient" class="patient-detail">
+                <div v-if="patientError" class="partial-error text-sm">
+                  <i class="pi pi-exclamation-circle mr-1"></i>Не удалось загрузить данные пациента
+                </div>
+                <div v-else-if="patient" class="patient-detail">
                   <div class="patient-detail-name">
                     {{ [patient.lastName, patient.firstName, patient.middleName].filter(Boolean).join(' ') }}<span v-if="patient.snils" class="patient-snils"> — {{ patient.snils }}</span>
                   </div>
@@ -93,9 +96,12 @@
               </div>
 
               <!-- Отдельные анализы -->
-              <div class="detail-section" v-if="standaloneAnalyses.length">
+              <div class="detail-section" v-if="analysesError || standaloneAnalyses.length">
                 <div class="detail-section-title">{{ panels.length ? 'Отдельные анализы' : 'Анализы в заказе' }}</div>
-                <div class="analyses-list">
+                <div v-if="analysesError" class="partial-error text-sm">
+                  <i class="pi pi-exclamation-circle mr-1"></i>Не удалось загрузить анализы
+                </div>
+                <div v-else class="analyses-list">
                   <div
                     v-for="a in standaloneAnalyses"
                     :key="a.id"
@@ -152,6 +158,8 @@ const detailsLoading = ref(false);
 const detailsError   = ref('');
 const detailsLoaded  = ref(false);
 const patient        = ref(null);
+const patientError   = ref(false);
+const analysesError  = ref(false);
 const panels         = ref([]);
 const standaloneAnalyses = ref([]);
 
@@ -162,17 +170,32 @@ const toggleDetails = async () => {
   detailsLoading.value = true;
   detailsError.value = '';
   try {
-    const [patientRes, analysesRes] = await Promise.all([
+    const [patientResult, analysesResult] = await Promise.allSettled([
       PatientService.getPatientById(props.order.patientId),
       AnalysisService.getAnalysesByIds(props.order.analysesIds ?? []),
     ]);
 
-    patient.value = patientRes.data?.payload ?? null;
-    const allAnalyses = analysesRes.data?.payload ?? [];
+    const patientFailed  = patientResult.status  === 'rejected';
+    const analysesFailed = analysesResult.status === 'rejected';
+
+    if (patientFailed && analysesFailed) {
+      detailsError.value = 'Не удалось загрузить детали заказа.';
+      return;
+    }
+
+    patientError.value  = patientFailed;
+    analysesError.value = analysesFailed;
+
+    patient.value = patientFailed ? null : (patientResult.value.data?.payload ?? null);
+    const allAnalyses    = analysesFailed ? [] : (analysesResult.value.data?.payload ?? []);
 
     if (props.order.panelsIds?.length) {
-      const panelsRes = await PanelService.getPanelsByIds(props.order.panelsIds);
-      panels.value = panelsRes.data?.payload ?? [];
+      try {
+        const panelsRes = await PanelService.getPanelsByIds(props.order.panelsIds);
+        panels.value = panelsRes.data?.payload ?? [];
+      } catch {
+        panels.value = [];
+      }
     }
 
     const panelAnalysisIds = new Set(
@@ -287,6 +310,10 @@ const formatCurrency = (v) => {
 .details-error {
   color: #dc2626;
   background: #fef2f2;
+}
+
+.partial-error {
+  color: #b45309;
 }
 
 .details-content {
