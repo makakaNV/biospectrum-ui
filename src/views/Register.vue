@@ -82,6 +82,14 @@
           <span v-if="errors.confirmPassword" class="field-error">{{ errors.confirmPassword }}</span>
         </div>
 
+        <label class="consent-row">
+          <input type="checkbox" v-model="agreedToTerms" class="consent-checkbox" />
+          <span class="consent-text">
+            Согласен на обработку
+            <a href="https://biospectrum.ru/terms" target="_blank" rel="noopener" class="consent-link">персональных данных</a>.
+          </span>
+        </label>
+
         <div v-if="serverError" class="server-error">
           <i class="pi pi-exclamation-circle"></i>
           {{ serverError }}
@@ -91,7 +99,7 @@
           class="submit-btn"
           :class="{ 'submit-btn--success': registerSuccess, 'submit-btn--loading': loading }"
           @click="register"
-          :disabled="loading || registerSuccess"
+          :disabled="loading || registerSuccess || !agreedToTerms"
         >
           <i v-if="loading" class="pi pi-spinner pi-spin"></i>
           <i v-else-if="registerSuccess" class="pi pi-check"></i>
@@ -115,6 +123,7 @@ import AuthService from '@/services/AuthService';
 const router = useRouter();
 const showPassword = ref(false);
 const showConfirm = ref(false);
+const agreedToTerms = ref(false);
 const loading = ref(false);
 const registerSuccess = ref(false);
 const serverError = ref('');
@@ -375,6 +384,38 @@ const register = async () => {
   color: #16a34a;
 }
 
+.consent-row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.consent-checkbox {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.consent-text {
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.consent-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.consent-link:hover {
+  text-decoration: underline;
+}
+
 .server-error {
   background: #fff1f2;
   border: 1px solid #fecdd3;
@@ -416,6 +457,7 @@ const register = async () => {
 
 .submit-btn:disabled {
   cursor: default;
+  background: #93c5fd;
 }
 
 .submit-btn--success {
